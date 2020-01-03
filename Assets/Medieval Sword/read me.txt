@@ -1,0 +1,8 @@
+Hello and thank you for purchasing Medieval Sword package.
+
+There are 3 fbx files all made to prefabs. 
+Its a same model with a bit of variation.
+The model is low poly and has 156 tris.
+
+Texure is 1024*1024 png combined to mobile/unlit material.
+You can ofcourse scale down the texture easily inside Unity.
