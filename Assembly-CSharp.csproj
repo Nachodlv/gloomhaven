@@ -65,6 +65,12 @@
      <Compile Include="Assets\PyroParticles\Prefab\Script\FireProjectileScript.cs" />
      <Compile Include="Assets\PyroParticles\Prefab\Script\MeteorSwarmScript.cs" />
      <Compile Include="Assets\PyroParticles\Prefab\Script\SingleLineAttribute.cs" />
+     <Compile Include="Assets\Scripts\Board.cs" />
+     <Compile Include="Assets\Scripts\Character\Character.cs" />
+     <Compile Include="Assets\Scripts\Character\Movable.cs" />
+     <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Square.cs" />
+     <Compile Include="Assets\Scripts\Utils\CoroutineHelper.cs" />
      <None Include="Assets\PyroParticles\Prefab\Materials\AdditiveTintable.shader" />
      <None Include="Assets\PyroParticles\Readme.txt" />
      <None Include="Assets\Medieval Sword\read me.txt" />
@@ -94,6 +100,9 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>/home/ignacio/projects/unity/Gloomhaven/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>/home/ignacio/projects/unity/Gloomhaven/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>/home/ignacio/projects/unity/2019.2.4f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

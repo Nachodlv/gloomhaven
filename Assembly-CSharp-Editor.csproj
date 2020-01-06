@@ -90,6 +90,9 @@
  <Reference Include="UnityEditor.UI">
  <HintPath>/home/ignacio/projects/unity/Gloomhaven/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>/home/ignacio/projects/unity/Gloomhaven/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>/home/ignacio/projects/unity/2019.2.4f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
  </Reference>
