@@ -6,14 +6,17 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    [Header("Board size")] [Tooltip("Quantity of squares in the z axis")]
-    public int width = 10;
+    [Header("Board size")] [Tooltip("Quantity of squares in the z axis")] [SerializeField]
+    private int width = 10; // z
 
-    [Tooltip("Quantity of squares in the x axis")]
-    public int height = 10;
+    [Tooltip("Quantity of squares in the x axis")] [SerializeField]
+    public int height = 10; // x
 
-    [Header("Square details")] public Square squarePrefab;
+    [Header("Square details")] [SerializeField]
+    private Square squarePrefab;
+
     public Character initialCharacter; //TODO remove
+    [SerializeField] private SelectionManager selectionManager;
 
     private Dictionary<Character, Square> characters;
     private List<List<Square>> squares;
@@ -22,13 +25,6 @@ public class Board : MonoBehaviour
     {
         characters = new Dictionary<Character, Square>();
         InstantiateSquares();
-    }
-
-    private void Start()
-    {
-        //TODO remove
-        characters.Add(initialCharacter, squares[0][0]);
-        MoveCharacter(initialCharacter, squares[5][5]);
     }
 
     /**
@@ -54,6 +50,7 @@ public class Board : MonoBehaviour
                     transform);
                 newSquare.x = i;
                 newSquare.y = j;
+                AssignSelection(newSquare);
                 column.Add(newSquare.GetComponent<Square>());
                 x += spriteHeight;
             }
@@ -80,6 +77,7 @@ public class Board : MonoBehaviour
         var from = GetCharacterSquare(character);
         var path = GetPath(@from, destination);
         character.GetComponent<Movable>().MoveCharacter(path.Select(square => square.transform.position).ToList());
+        characters[character] = path[path.Count - 1];
     }
 
 
@@ -87,20 +85,51 @@ public class Board : MonoBehaviour
      * Returns the path between the parameter from and the parameter to.
      * The path is represented as a list of squares
      */
-    private List<Square> GetPath(Square from, Square to)
+    public List<Square> GetPath(Square from, Square to)
     {
         var path = new List<Square>();
         var i = from.x;
-        for (; i < to.x; i++)
+        path.Add(from);
+        while (i != to.x)
         {
+            if (i <= to.x) i++;
+            else i--;
             path.Add(squares[i][from.y]);
         }
 
-        for (var j = from.y; j <= to.y; j++)
+        var j = from.y;
+        while (j != to.y)
         {
+            if (j <= to.y) j++;
+            else j--;
             path.Add(squares[i][j]);
-        }
+        } 
 
         return path;
     }
+
+    /**
+     * Delegates the selection and the hover of a square to the SelectionManager.
+     */
+    private void AssignSelection(Square square)
+    {
+        square.GetComponent<Clickable>().onMouseDown = _ => selectionManager.OnSquareSelected(this, square);
+        var hoverable = square.GetComponent<Hoverable>();
+        hoverable.onMouseEnter = _ => selectionManager.OnSquareHovered(this, square);
+        hoverable.onMouseExit = _ => selectionManager.OnSquareNotHovered(this, square);
+    }
+
+    /**
+     * Add a character to the board.
+     * Returns the square where the character was positioned.
+     * If the position is out of bounds then it returns null.
+     */
+    public Square AddCharacter(Character character, int x, int z)
+    {
+        if (width < z || height < x || z < 0 || x < 0) return null;
+
+        var square = squares[z][x];
+        characters.Add(character, square);
+        return square;
+    } 
 }

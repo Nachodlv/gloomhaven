@@ -16,6 +16,7 @@ public class Square : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         colors = new List<Color>();
+        colors.Add(Color.white);
     }
 
     /**

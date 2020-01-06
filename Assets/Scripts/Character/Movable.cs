@@ -8,7 +8,8 @@ using UnityEngine;
 public class Movable : MonoBehaviour
 {
     [Tooltip("Time it takes to go to the next square in seconds")]
-    public int speed = 3;
+    [SerializeField]
+    private int speed = 3;
 
     private List<Vector3> nextPositions;
     private Animator animator;
