@@ -129,7 +129,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 433553823}
-  - component: {fileID: 433553822}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -137,19 +136,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &433553822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 433553821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 871876235732a89e1a70c34e1e955031, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  affectingStats: {fileID: 0}
 --- !u!4 &433553823
 Transform:
   m_ObjectHideFlags: 0
@@ -534,8 +520,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charactersPositions:
   - character: {fileID: 2054098526}
-    x: 1
-    z: 2
+    x: 7
+    z: 8
   board: {fileID: 1565941483}
 --- !u!114 &1621612804
 MonoBehaviour:
@@ -624,7 +610,7 @@ MonoBehaviour:
   defence: 1
   health: 10
   sp: 5
-  speed: 3
+  speed: 5
 --- !u!1001 &2782877210652316043
 PrefabInstance:
   m_ObjectHideFlags: 0

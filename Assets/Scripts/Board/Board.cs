@@ -75,12 +75,13 @@ public class Board : MonoBehaviour
     /**
      * Moves the character to the destination through the squares of the board
      */
-    public void MoveCharacter(Character character, Square destination)
+    public int MoveCharacter(Character character, List<Square> path, Action onFinishMoving)
     {
-        var from = GetCharacterSquare(character);
-        var path = GetPath(@from, destination);
-        character.GetComponent<Movable>().MoveCharacter(path.Select(square => square.transform.position).ToList());
+        if (path.Count == 0) return 0;
+        character.GetComponent<Movable>()
+            .MoveCharacter(path.Select(square => square.transform.position).ToList(), onFinishMoving);
         characters[character] = path[path.Count - 1];
+        return path.Count - 1; // The first position is shouldn't me counted
     }
 
 
@@ -94,10 +95,13 @@ public class Board : MonoBehaviour
         return path.Select(FromPointToSquare).ToList();
     }
 
-    public List<Square> GetRange(Square init, int distance)
+    /**
+     * Returns the squares that are in the distance passed as parameter to the center square
+     */
+    public List<Square> GetRange(Square center, int distance)
     {
-        var range = BoardCalculator.CalculateRange(FromSquareToPoint(init), distance, new Point(0, 0),
-            new Point(width -1, height -1));
+        var range = BoardCalculator.CalculateRange(FromSquareToPoint(center), distance, new Point(0, 0),
+            new Point(width - 1, height - 1));
         return range.Select(FromPointToSquare).ToList();
     }
 
@@ -106,7 +110,7 @@ public class Board : MonoBehaviour
      */
     private void AssignSelection(Square square, BoardPainter boardPainter)
     {
-        square.GetComponent<Clickable>().onMouseDown = _ => selectionManager.OnSquareSelected(this, square);
+        square.GetComponent<Clickable>().onMouseDown = _ => selectionManager.OnSquareSelected(boardPainter, square);
         var hoverable = square.GetComponent<Hoverable>();
         hoverable.onMouseEnter = _ => selectionManager.OnSquareHovered(boardPainter, square);
         hoverable.onMouseExit = _ => selectionManager.OnSquareUnHovered(boardPainter);

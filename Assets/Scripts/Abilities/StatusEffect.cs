@@ -1,21 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Abilities;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class StatusEffect : MonoBehaviour
+namespace Abilities
 {
-    [Tooltip("Stats that the status effect modify")]
-    public StatsModifier statsModifier;
-    // Start is called before the first frame update
-    void Start()
+    public class StatusEffect
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [Tooltip("Stats that the status effect modify")]
+        public StatsModifier StatsModifier;
+        public int Duration;
     }
 }

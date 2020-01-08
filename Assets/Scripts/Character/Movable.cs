@@ -14,6 +14,7 @@ public class Movable : MonoBehaviour
     private List<Vector3> nextPositions;
     private Animator animator;
     private static readonly int Moving = Animator.StringToHash("moving");
+    private Action onFinishMoving;
 
     private void Awake()
     {
@@ -33,14 +34,18 @@ public class Movable : MonoBehaviour
         if (Vector3.Distance(transform.position, target) > 0.001f) return;
         
         nextPositions.RemoveAt(0);
-        if(nextPositions.Count == 0) animator.SetBool(Moving, false);
+        if (nextPositions.Count == 0)
+        {
+            animator.SetBool(Moving, false);
+            onFinishMoving?.Invoke();
+        }
         else transform.LookAt(nextPositions[0]);
     }
 
     /**
      * Adds the new positions to the next positions list
      */
-    public void MoveCharacter(List<Vector3> positions)
+    public void MoveCharacter(List<Vector3> positions, Action moveFinished)
     {
         if (!positions.Any()) return;
         
@@ -48,6 +53,7 @@ public class Movable : MonoBehaviour
         nextPositions.AddRange(positions);
         
         transform.LookAt(positions[0]);
+        onFinishMoving = moveFinished;
     }
     
 }

@@ -7,11 +7,11 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-    public uint Initiative => Sum(initiative, statusEffects.Sum(se => se.statsModifier.initiative));
-    public uint Defence => Sum(defence, statusEffects.Sum(se => se.statsModifier.defence));
-    public uint Health => Sum(health, statusEffects.Sum(se => se.statsModifier.health));
-    public uint Sp => Sum(sp, statusEffects.Sum(se => se.statsModifier.sp));
-    public uint Speed => Sum(speed, statusEffects.Sum(se => se.statsModifier.speed));
+    public uint Initiative => Sum(initiative, statusEffects.Sum(se => se.StatsModifier.initiative));
+    public uint Defence => Sum(defence, statusEffects.Sum(se => se.StatsModifier.defence));
+    public uint Health => Sum(health, statusEffects.Sum(se => se.StatsModifier.health));
+    public uint Sp => Sum(sp, statusEffects.Sum(se => se.StatsModifier.sp));
+    public uint Speed => Sum(speed, statusEffects.Sum(se => se.StatsModifier.speed));
     public uint MaxHealth => maxHealth;
 
     [SerializeField] private uint initiative = 1;
@@ -38,8 +38,8 @@ public class Stats : MonoBehaviour
         defence = Sum(defence, stats.defence);
         sp = Sum(sp, stats.sp);
         speed = Sum(speed, stats.speed);
-        
-        if (stats.health < 0 && stats.health < -defence) 
+
+        if (stats.health < 0 && stats.health < -defence)
             health = Sum(health + defence, stats.health);
         else if (stats.health > 0)
             health = Sum(health, stats.health);
@@ -52,7 +52,7 @@ public class Stats : MonoBehaviour
     {
         statusEffects.Add(statusEffect);
     }
-    
+
     /**
      * Sum two values.
      * If the results is positive, the return value is the sum of the two values.
