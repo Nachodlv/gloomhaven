@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utils;
 
 public class Board : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class Board : MonoBehaviour
      */
     private void InstantiateSquares()
     {
+        var boardPainter = GetComponent<BoardPainter>();
+
         var bounds = squarePrefab.GetComponent<SpriteRenderer>().sprite.bounds;
         var spriteHeight = bounds.size.x;
         var spriteWidth = bounds.size.y;
@@ -50,7 +53,7 @@ public class Board : MonoBehaviour
                     transform);
                 newSquare.x = i;
                 newSquare.y = j;
-                AssignSelection(newSquare);
+                AssignSelection(newSquare, boardPainter);
                 column.Add(newSquare.GetComponent<Square>());
                 x += spriteHeight;
             }
@@ -87,36 +90,26 @@ public class Board : MonoBehaviour
      */
     public List<Square> GetPath(Square from, Square to)
     {
-        var path = new List<Square>();
-        var i = from.x;
-        path.Add(from);
-        while (i != to.x)
-        {
-            if (i <= to.x) i++;
-            else i--;
-            path.Add(squares[i][from.y]);
-        }
+        var path = BoardCalculator.CalculatePath(FromSquareToPoint(from), FromSquareToPoint(to));
+        return path.Select(FromPointToSquare).ToList();
+    }
 
-        var j = from.y;
-        while (j != to.y)
-        {
-            if (j <= to.y) j++;
-            else j--;
-            path.Add(squares[i][j]);
-        } 
-
-        return path;
+    public List<Square> GetRange(Square init, int distance)
+    {
+        var range = BoardCalculator.CalculateRange(FromSquareToPoint(init), distance, new Point(0, 0),
+            new Point(width -1, height -1));
+        return range.Select(FromPointToSquare).ToList();
     }
 
     /**
      * Delegates the selection and the hover of a square to the SelectionManager.
      */
-    private void AssignSelection(Square square)
+    private void AssignSelection(Square square, BoardPainter boardPainter)
     {
         square.GetComponent<Clickable>().onMouseDown = _ => selectionManager.OnSquareSelected(this, square);
         var hoverable = square.GetComponent<Hoverable>();
-        hoverable.onMouseEnter = _ => selectionManager.OnSquareHovered(this, square);
-        hoverable.onMouseExit = _ => selectionManager.OnSquareNotHovered(this, square);
+        hoverable.onMouseEnter = _ => selectionManager.OnSquareHovered(boardPainter, square);
+        hoverable.onMouseExit = _ => selectionManager.OnSquareUnHovered(boardPainter);
     }
 
     /**
@@ -131,5 +124,15 @@ public class Board : MonoBehaviour
         var square = squares[z][x];
         characters.Add(character, square);
         return square;
-    } 
+    }
+
+    private Square FromPointToSquare(Point point)
+    {
+        return squares[point.X][point.Y];
+    }
+
+    private static Point FromSquareToPoint(Square square)
+    {
+        return new Point(square.x, square.y);
+    }
 }

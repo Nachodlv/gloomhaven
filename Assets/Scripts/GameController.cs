@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     [Tooltip("Characters that will be on the board")] [SerializeField]
     private List<CharacterPosition> charactersPositions;
     [SerializeField] private Board board;
-    [SerializeField] private TurnManager turnManager;
+    private TurnManager turnManager;
     
     private List<Character> characters;
 
@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         PositionCharacters();
-        turnManager.StartTurn(characters);
+        turnManager.StartRound(characters);
     }
 
     /**

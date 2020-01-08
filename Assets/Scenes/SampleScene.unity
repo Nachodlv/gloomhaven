@@ -120,6 +120,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &433553821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 433553823}
+  - component: {fileID: 433553822}
+  m_Layer: 0
+  m_Name: Fireball
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &433553822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433553821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871876235732a89e1a70c34e1e955031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectingStats: {fileID: 0}
+--- !u!4 &433553823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433553821}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7206232, y: 1.2196167, z: 0.50271416}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkingColor: {r: 0, g: 1, b: 0, a: 1}
+  walkingRange: {r: 0, g: 0, b: 1, a: 1}
 --- !u!1 &1621612802
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,9 +535,8 @@ MonoBehaviour:
   charactersPositions:
   - character: {fileID: 2054098526}
     x: 1
-    z: 1
+    z: 2
   board: {fileID: 1565941483}
-  turnManager: {fileID: 0}
 --- !u!114 &1621612804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,6 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbc2ba79801ffcfaa8b15451de999ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardPainter: {fileID: 1565941485}
 --- !u!4 &1621612805
 Transform:
   m_ObjectHideFlags: 0
@@ -549,6 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a7775d6fa9d19348c90e0b37cdd3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 0}
 --- !u!114 &2054098527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +607,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e50be67e672ef7ec95aee99ac727953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 3
+--- !u!114 &2054098528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054098525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc2c8a5a6911b2e7a54d01dfc6c7255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initiative: 1
+  defence: 1
+  health: 10
+  sp: 5
   speed: 3
 --- !u!1001 &2782877210652316043
 PrefabInstance:

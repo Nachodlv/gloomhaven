@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Abilities;
 using UnityEngine;
 
-[RequireComponent(typeof(Stats))]
-public class Character : MonoBehaviour
+public class StatusEffect : MonoBehaviour
 {
-    public Stats stats;
-
-    private void Awake()
-    {
-        stats = GetComponent<Stats>();
-    }
-
+    [Tooltip("Stats that the status effect modify")]
+    public StatsModifier statsModifier;
     // Start is called before the first frame update
     void Start()
     {

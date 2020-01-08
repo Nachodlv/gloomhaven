@@ -11,19 +11,13 @@ public class SelectionManager : MonoBehaviour
         board.MoveCharacter(turnManager.GetCurrentCharacter(), square);
     }
 
-    public void OnSquareHovered(Board board, Square square)
+    public void OnSquareHovered(BoardPainter boardPainter, Square square)
     {
-        board.GetComponent<BoardPainter>()
-            .PaintWalkingSquares(turnManager.GetCurrentCharacter(), GetPath(board, square));
+        boardPainter.PaintWalkingSquares(turnManager.GetCurrentCharacter(), square);
     }
 
-    public void OnSquareNotHovered(Board board, Square square)
+    public void OnSquareUnHovered(BoardPainter boardPainter)
     {
-        board.GetComponent<BoardPainter>().UnPaintWalkingSquares(turnManager.GetCurrentCharacter());
-    }
-
-    private List<Square> GetPath(Board board, Square square)
-    {
-        return board.GetPath(board.GetCharacterSquare(turnManager.GetCurrentCharacter()), square);
+        boardPainter.UnPaintWalkingSquares(turnManager.GetCurrentCharacter());
     }
 }
