@@ -7,12 +7,13 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-    public uint Initiative => Sum(initiative, statusEffects.Sum(se => se.StatsModifier.initiative));
-    public uint Defence => Sum(defence, statusEffects.Sum(se => se.StatsModifier.defence));
-    public uint Health => Sum(health, statusEffects.Sum(se => se.StatsModifier.health));
-    public uint Sp => Sum(sp, statusEffects.Sum(se => se.StatsModifier.sp));
-    public uint Speed => Sum(speed, statusEffects.Sum(se => se.StatsModifier.speed));
+    public uint Initiative => Sum(initiative, StatusEffects.Sum(se => se.StatsModifier.initiative));
+    public uint Defence => Sum(defence, StatusEffects.Sum(se => se.StatsModifier.defence));
+    public uint Health => Sum(health, StatusEffects.Sum(se => se.StatsModifier.health));
+    public uint Sp => Sum(sp, StatusEffects.Sum(se => se.StatsModifier.sp));
+    public uint Speed => Sum(speed, StatusEffects.Sum(se => se.StatsModifier.speed));
     public uint MaxHealth => maxHealth;
+    public List<StatusEffect> StatusEffects { get; private set; }
 
     [SerializeField] private uint initiative = 1;
     [SerializeField] private uint defence = 1;
@@ -21,12 +22,11 @@ public class Stats : MonoBehaviour
     [SerializeField] private uint speed = 5;
 
     private uint maxHealth;
-    private List<StatusEffect> statusEffects;
 
     private void Awake()
     {
         maxHealth = health;
-        statusEffects = new List<StatusEffect>();
+        StatusEffects = new List<StatusEffect>();
     }
 
     /**
@@ -50,7 +50,12 @@ public class Stats : MonoBehaviour
      */
     public void AddStatusEffect(StatusEffect statusEffect)
     {
-        statusEffects.Add(statusEffect);
+        StatusEffects.Add(statusEffect);
+    }
+
+    public void RemoveStatusEffect(StatusEffect statusEffect)
+    {
+        StatusEffects.Remove(statusEffect);
     }
 
     /**

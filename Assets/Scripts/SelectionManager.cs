@@ -9,14 +9,19 @@ public class SelectionManager : MonoBehaviour
     private bool moving;
 
     /**
-     * Moves the player to the selected square. Remove the colors from the walking range and the walking trail
+     * Moves the player to the selected square. Remove the colors from the walking range and the walking trail.
+     * If the player has no more speed then it ends its turn.
      */
     public void OnSquareSelected(BoardPainter boardPainter, Square square)
     {
         if (moving) return;
 
         var character = turnManager.GetCurrentCharacter();
-        if (character.stats.Speed == 0) return;
+        if (character.stats.Speed == 0)
+        {
+            turnManager.EndTurn();
+            return;
+        }
         moving = true;
 
         RemovesPainting(boardPainter, character);
@@ -24,6 +29,7 @@ public class SelectionManager : MonoBehaviour
         {
             moving = false;
             if(character.stats.Speed > 0) boardPainter.PaintWalkingRange(character);
+            else turnManager.EndTurn();
         });
         ReducesSpeed(character, distance);
     }

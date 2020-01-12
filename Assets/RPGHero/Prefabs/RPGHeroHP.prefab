@@ -1490,6 +1490,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4086279202973348}
   - component: {fileID: 95922273507661854}
+  - component: {fileID: 2054098526}
+  - component: {fileID: 2054098527}
+  - component: {fileID: 2054098528}
   m_Layer: 0
   m_Name: RPGHeroHP
   m_TagString: Untagged
@@ -1532,6 +1535,49 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2054098526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556040939566342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a7775d6fa9d19348c90e0b37cdd3a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 0}
+--- !u!114 &2054098527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556040939566342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e50be67e672ef7ec95aee99ac727953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+--- !u!114 &2054098528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556040939566342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc2c8a5a6911b2e7a54d01dfc6c7255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initiative: 1
+  defence: 1
+  health: 10
+  sp: 5
+  speed: 5
 --- !u!1 &1613396906338018
 GameObject:
   m_ObjectHideFlags: 0

@@ -91,7 +91,8 @@ public class Board : MonoBehaviour
      */
     public List<Square> GetPath(Square from, Square to)
     {
-        var path = BoardCalculator.CalculatePath(FromSquareToPoint(from), FromSquareToPoint(to));
+        var path = BoardCalculator.CalculatePath(FromSquareToPoint(from), FromSquareToPoint(to),
+            characters.Values.Select(FromSquareToPoint).ToList());
         return path.Select(FromPointToSquare).ToList();
     }
 

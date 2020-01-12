@@ -19,18 +19,23 @@ public class GameController : MonoBehaviour
     [SerializeField] private Board board;
     private TurnManager turnManager;
     
-    private List<Character> characters;
+    private Dictionary<Character, bool> characters;
 
     private void Awake()
     {
         turnManager = GetComponent<TurnManager>();
-        characters = charactersPositions.Select(characterPosition => characterPosition.character).ToList();
+        characters =
+            charactersPositions.ToDictionary(characterPosition => characterPosition.character, _ => true);
     }
 
+    /**
+     * Subscribes to the OnRoundEnd of the turn manager and starts the round with the list of characters.
+     */
     private void Start()
     {
         PositionCharacters();
-        turnManager.StartRound(characters);
+        turnManager.OnRoundEnd += OnRoundEnd;
+        turnManager.StartRound(characters.Keys.ToList());
     }
 
     /**
@@ -47,10 +52,22 @@ public class GameController : MonoBehaviour
                 new Vector3(squarePosition.x, characterTransform.position.y, squarePosition.z);
         });
     }
-    
-    
-    // Update is called once per frame
-    void Update()
+
+    /**
+     * Tells the characters active that the round has ended.
+     * Starts a new round with them.
+     */
+    private void OnRoundEnd()
     {
+        GetActiveCharacters().ForEach(c => c.OnRoundEnd());
+        turnManager.StartRound(GetActiveCharacters());
+    }
+
+    /**
+     * Returns the characters that are still alive.
+     */
+    private List<Character> GetActiveCharacters()
+    {
+        return characters.Where(character => character.Value).Select(r => r.Key).ToList();
     }
 }
