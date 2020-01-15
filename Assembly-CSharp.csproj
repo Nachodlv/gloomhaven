@@ -65,6 +65,9 @@
      <Compile Include="Assets\PyroParticles\Prefab\Script\FireProjectileScript.cs" />
      <Compile Include="Assets\PyroParticles\Prefab\Script\MeteorSwarmScript.cs" />
      <Compile Include="Assets\PyroParticles\Prefab\Script\SingleLineAttribute.cs" />
+     <Compile Include="Assets\Scripts\Abilities\Ability.cs" />
+     <Compile Include="Assets\Scripts\Abilities\FireballProjectile.cs" />
+     <Compile Include="Assets\Scripts\Abilities\ProjectileAbility.cs" />
      <Compile Include="Assets\Scripts\Abilities\StatsModifier.cs" />
      <Compile Include="Assets\Scripts\Abilities\StatusEffect.cs" />
      <Compile Include="Assets\Scripts\Board\Board.cs" />
@@ -80,6 +83,8 @@
      <Compile Include="Assets\Scripts\TurnManager.cs" />
      <Compile Include="Assets\Scripts\Utils\BoardCalculator.cs" />
      <Compile Include="Assets\Scripts\Utils\CoroutineHelper.cs" />
+     <Compile Include="Assets\Scripts\Utils\ObjectPooler.cs" />
+     <Compile Include="Assets\Scripts\Utils\Pooleable.cs" />
      <None Include="Assets\PyroParticles\Prefab\Materials\AdditiveTintable.shader" />
      <None Include="Assets\PyroParticles\Readme.txt" />
      <None Include="Assets\Medieval Sword\read me.txt" />

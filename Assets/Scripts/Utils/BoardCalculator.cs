@@ -51,14 +51,15 @@ namespace Utils
          */
         public static List<Point> CalculatePath(Point origin, Point destination, List<Point> blockedPoints)
         {
-            if(origin.Equals(destination)) return new List<Point>();
-            
-            var path = CalculatePath(new PointPath() {Cost = 0, Point = origin, Successor = null}, destination, blockedPoints);
-            
+            if (origin.Equals(destination)) return new List<Point>();
+
+            var path = CalculatePath(new PointPath() {Cost = 0, Point = origin, Successor = null}, destination,
+                blockedPoints);
+
             if (IsContained(destination, blockedPoints)) path.RemoveAt(path.Count - 1);
             return path;
         }
-        
+
 
         /**
          * Returns a range represented by a list of points.
@@ -91,6 +92,16 @@ namespace Utils
 
             return points;
         }
+        
+        /**
+         * Returns a range represented by a list of points.
+         * The range is a circle where its center and radius are the ones passed as parameters.
+         */
+        public static List<Point> CalculateRange(Point center, int radius)
+        {
+            return CalculateRange(center, radius, new Point(center.X - radius, center.Y - radius),
+                new Point(center.X + radius, center.Y + radius));
+        }
 
         /**
          * Returns true if the point is contained in the list of points.
@@ -100,7 +111,7 @@ namespace Utils
         {
             return points.Any(p => p.Equals(point));
         }
-        
+
         /**
          * Returns the optimal path given its origin, destination and blocked points.
          */

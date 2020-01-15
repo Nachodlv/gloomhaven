@@ -7,6 +7,7 @@ public class SelectionManager : MonoBehaviour
 {
     [SerializeField] private TurnManager turnManager;
     private bool moving;
+    private bool abilityUsed;
 
     /**
      * Moves the player to the selected square. Remove the colors from the walking range and the walking trail.
@@ -15,21 +16,31 @@ public class SelectionManager : MonoBehaviour
     public void OnSquareSelected(BoardPainter boardPainter, Square square)
     {
         if (moving) return;
-
         var character = turnManager.GetCurrentCharacter();
-        if (character.stats.Speed == 0)
+
+        if (!abilityUsed)
         {
-            turnManager.EndTurn();
+            character.Abilities[0].MakeAbility(boardPainter.board.GetCharacterSquare(character).transform.position,
+                square.transform.position);
+            abilityUsed = true;
             return;
         }
+          
+
+        if (character.Stats.Speed == 0)
+        {
+            EndTurn();
+            return;
+        }
+
         moving = true;
 
         RemovesPainting(boardPainter, character);
         var distance = boardPainter.board.MoveCharacter(character, GetPath(boardPainter.board, character, square), () =>
         {
             moving = false;
-            if(character.stats.Speed > 0) boardPainter.PaintWalkingRange(character);
-            else turnManager.EndTurn();
+            if (character.Stats.Speed > 0) boardPainter.PaintWalkingRange(character);
+            else EndTurn();
         });
         ReducesSpeed(character, distance);
     }
@@ -39,7 +50,7 @@ public class SelectionManager : MonoBehaviour
      */
     public void OnSquareHovered(BoardPainter boardPainter, Square square)
     {
-        if(moving) return;
+        if (moving) return;
         var character = turnManager.GetCurrentCharacter();
         boardPainter.PaintWalkingSquares(character, GetPath(boardPainter.board, character, square));
     }
@@ -57,7 +68,7 @@ public class SelectionManager : MonoBehaviour
      */
     private static void ReducesSpeed(Character character, int quantity)
     {
-        character.stats.AddStatusEffect(new StatusEffect
+        character.Stats.AddStatusEffect(new StatusEffect
             {Duration = 1, StatsModifier = new StatsModifier {speed = -quantity}});
     }
 
@@ -76,11 +87,17 @@ public class SelectionManager : MonoBehaviour
      */
     private List<Square> GetPath(Board board, Character character, Square destination)
     {
-        var speed = (int) character.stats.Speed;
+        var speed = (int) character.Stats.Speed;
         if (speed == 0) return new List<Square>();
         var from = board.GetCharacterSquare(character);
         var path = board.GetPath(from, destination);
         if (path.Count > speed) path.RemoveRange(speed + 1, path.Count - 1 - speed);
         return path;
+    }
+    
+    private void EndTurn()
+    {
+        abilityUsed = false;
+        turnManager.EndTurn();
     }
 }

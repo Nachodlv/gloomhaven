@@ -18,7 +18,7 @@ public class TurnManager : MonoBehaviour
      */
     public void StartRound(List<Character> characters)
     {
-        characters.Sort((a, b) => (int) a.stats.Initiative - (int) b.stats.Initiative);
+        characters.Sort((a, b) => (int) a.Stats.Initiative - (int) b.Stats.Initiative);
         charactersOrdered = characters;
         currentTurn = 0;
         NextTurn();

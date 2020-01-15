@@ -73,6 +73,6 @@ public class BoardPainter : MonoBehaviour
     private List<Square> GetRange(Character character)
     {
         var characterSquare = board.GetCharacterSquare(character);
-        return board.GetRange(characterSquare, (int) character.stats.Speed);
+        return board.GetRange(characterSquare, (int) character.Stats.Speed);
     } 
 }

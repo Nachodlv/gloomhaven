@@ -1,17 +1,27 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Abilities;
 using UnityEngine;
 
 [RequireComponent(typeof(Stats))]
 public class Character : MonoBehaviour
 {
-    public Stats stats;
+    [NonSerialized]
+    public Stats Stats;
+    [NonSerialized]
+    public List<Ability> Abilities;
+    
+    [SerializeField]
+    [Tooltip("Abilities prefabs that the character will have")]
+    private List<Ability> abilitiesPrefab;
 
     private void Awake()
     {
-        stats = GetComponent<Stats>();
+        Stats = GetComponent<Stats>();
+        
+        // Instantiates the abilities prefabs
+        Abilities = abilitiesPrefab.Select(a => Instantiate(a, transform)).ToList();
     }
 
     /**
@@ -30,11 +40,11 @@ public class Character : MonoBehaviour
     private void ReduceDurationStatusEffects()
     {
         var toBeRemoved = new List<StatusEffect>();
-        stats.StatusEffects.ForEach(se =>
+        Stats.StatusEffects.ForEach(se =>
         {
             se.Duration--;
             if (se.Duration <= 0) toBeRemoved.Add(se);
         });
-        toBeRemoved.ForEach(se => stats.RemoveStatusEffect(se));
+        toBeRemoved.ForEach(se => Stats.RemoveStatusEffect(se));
     }
 }
