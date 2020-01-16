@@ -9,15 +9,22 @@ public class Pooleable : MonoBehaviour
 
     protected void Start()
     {
-//        gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Activates the game object.
+    /// </summary>
+    /// <param name="pooleable">ObjectPooler that will be used when this GameObject is deactivated</param>
     public virtual void Activate(ObjectPooler pooleable)
     {
         gameObject.SetActive(true);
         objectPooler = pooleable;
     }
 
+    /// <summary>
+    /// Deactivated the game object. Tells the object pooler that this game object is deactivated.
+    /// </summary>
     public virtual void Deactivate()
     {
         gameObject.SetActive(false);

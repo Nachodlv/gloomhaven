@@ -29,7 +29,7 @@ public class TurnManager : MonoBehaviour
      */
     private void NextTurn()
     {
-        boardPainter.PaintWalkingRange(GetCurrentCharacter());
+        FindObjectOfType<SelectionManager>().StartTurn(); //TODO remove
     }
 
     /**

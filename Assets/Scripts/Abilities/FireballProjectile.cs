@@ -21,7 +21,7 @@ public class FireballProjectile : Pooleable
         projectile.Stop();
         trail.Stop();
         explosion.Play();
-//        CoroutineHelper.WaitForSeconds(this, explosion.main.duration, () => base.Deactivate());
+        CoroutineHelper.WaitForSeconds(this, explosion.main.startLifetime.constant, () => base.Deactivate());
     }
 
 }

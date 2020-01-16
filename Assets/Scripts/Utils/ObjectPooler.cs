@@ -12,6 +12,13 @@ public class ObjectPooler
     private GameObject parent;
     private Pooleable objectToPool;
 
+    /// <summary>
+    /// Instantiates game objects with the given <paramref name="pooleable"/> and <paramref name="quantity"/>.
+    /// The new gameObjects will have their parent called <paramref name="parentName"/>
+    /// </summary>
+    /// <param name="quantity"></param>
+    /// <param name="pooleable"></param>
+    /// <param name="parentName"></param>
     public void InstantiateObjects(int quantity, Pooleable pooleable, string parentName)
     {
         initialQuantity = quantity;

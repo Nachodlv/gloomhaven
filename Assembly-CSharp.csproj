@@ -66,8 +66,10 @@
      <Compile Include="Assets\PyroParticles\Prefab\Script\MeteorSwarmScript.cs" />
      <Compile Include="Assets\PyroParticles\Prefab\Script\SingleLineAttribute.cs" />
      <Compile Include="Assets\Scripts\Abilities\Ability.cs" />
+     <Compile Include="Assets\Scripts\Abilities\AbilityType.cs" />
      <Compile Include="Assets\Scripts\Abilities\AbilityUI.cs" />
      <Compile Include="Assets\Scripts\Abilities\FireballProjectile.cs" />
+     <Compile Include="Assets\Scripts\Abilities\PoolerProvider.cs" />
      <Compile Include="Assets\Scripts\Abilities\ProjectileAbility.cs" />
      <Compile Include="Assets\Scripts\Abilities\StatsModifier.cs" />
      <Compile Include="Assets\Scripts\Abilities\StatusEffect.cs" />
