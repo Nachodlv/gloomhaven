@@ -17,11 +17,11 @@ public class ProjectileAbility : Ability
 
     private void Awake()
     {
-        areaOfEffect = BoardCalculator.CalculateRange(new Point(0, 0), rangeOfAreaOfEffect)
+        AreaOfEffect = BoardCalculator.CalculateRange(new Point(0, 0), rangeOfAreaOfEffect)
             .Select(p => new Vector2Int(p.X, p.Y)).ToList();
     }
 
-    public override void MakeAbility(Vector3 origin, Vector3 destination)
+    public override void CastAbility(Vector3 origin, Vector3 destination)
     {
         var projectile = Instantiate(prefab, origin, Quaternion.identity);
         projectile.Activate(null);

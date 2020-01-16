@@ -10,7 +10,7 @@ public class Stats : MonoBehaviour
     public uint Initiative => Sum(initiative, StatusEffects.Sum(se => se.StatsModifier.initiative));
     public uint Defence => Sum(defence, StatusEffects.Sum(se => se.StatsModifier.defence));
     public uint Health => Sum(health, StatusEffects.Sum(se => se.StatsModifier.health));
-    public uint Sp => Sum(sp, StatusEffects.Sum(se => se.StatsModifier.sp));
+    public uint Mana => Sum(mana, StatusEffects.Sum(se => se.StatsModifier.mana));
     public uint Speed => Sum(speed, StatusEffects.Sum(se => se.StatsModifier.speed));
     public uint MaxHealth => maxHealth;
     public List<StatusEffect> StatusEffects { get; private set; }
@@ -18,7 +18,7 @@ public class Stats : MonoBehaviour
     [SerializeField] private uint initiative = 1;
     [SerializeField] private uint defence = 1;
     [SerializeField] private uint health = 10;
-    [SerializeField] private uint sp = 5;
+    [SerializeField] private uint mana = 5;
     [SerializeField] private uint speed = 5;
 
     private uint maxHealth;
@@ -36,7 +36,7 @@ public class Stats : MonoBehaviour
     {
         initiative = Sum(initiative, stats.initiative);
         defence = Sum(defence, stats.defence);
-        sp = Sum(sp, stats.sp);
+        mana = Sum(mana, stats.mana);
         speed = Sum(speed, stats.speed);
 
         if (stats.health < 0 && stats.health < -defence)

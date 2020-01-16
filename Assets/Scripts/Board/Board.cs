@@ -33,8 +33,6 @@ public class Board : MonoBehaviour
      */
     private void InstantiateSquares()
     {
-        var boardPainter = GetComponent<BoardPainter>();
-
         var bounds = squarePrefab.GetComponent<SpriteRenderer>().sprite.bounds;
         var spriteHeight = bounds.size.x;
         var spriteWidth = bounds.size.y;
@@ -53,7 +51,7 @@ public class Board : MonoBehaviour
                     transform);
                 newSquare.x = i;
                 newSquare.y = j;
-                AssignSelection(newSquare, boardPainter);
+                AssignSelection(newSquare);
                 column.Add(newSquare.GetComponent<Square>());
                 x += spriteHeight;
             }
@@ -109,12 +107,12 @@ public class Board : MonoBehaviour
     /**
      * Delegates the selection and the hover of a square to the SelectionManager.
      */
-    private void AssignSelection(Square square, BoardPainter boardPainter)
+    private void AssignSelection(Square square)
     {
-        square.GetComponent<Clickable>().onMouseDown = _ => selectionManager.OnSquareSelected(boardPainter, square);
+        square.GetComponent<Clickable>().onMouseDown = _ => selectionManager.OnSquareSelected(square);
         var hoverable = square.GetComponent<Hoverable>();
-        hoverable.onMouseEnter = _ => selectionManager.OnSquareHovered(boardPainter, square);
-        hoverable.onMouseExit = _ => selectionManager.OnSquareUnHovered(boardPainter);
+        hoverable.onMouseEnter = _ => selectionManager.OnSquareHovered(square);
+        hoverable.onMouseExit = _ => selectionManager.OnSquareUnHovered(square);
     }
 
     /**
@@ -129,6 +127,23 @@ public class Board : MonoBehaviour
         var square = squares[z][x];
         characters.Add(character, square);
         return square;
+    }
+
+    /// <summary>
+    /// Returns the squares that represent the <paramref name="positions"/> given.
+    /// If any of the points given is put of range the it will be ignored.
+    /// </summary>
+    /// <param name="positions">A list representing the squares</param>
+    /// <returns>A list of the squares in the given <paramref name="positions"/></returns>
+    public List<Square> GetSquares(List<Vector2Int> positions)
+    {
+        var squaresToReturn = new List<Square>();
+        positions.ForEach(position =>
+        {
+            if (position.x < height && position.x >= 0 && position.y < width && position.y >= 0) 
+                squaresToReturn.Add(squares[position.x][position.y]);
+        });
+        return squaresToReturn;
     }
 
     private Square FromPointToSquare(Point point)

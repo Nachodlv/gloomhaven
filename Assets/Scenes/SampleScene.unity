@@ -482,10 +482,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1554255228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8fd354874a080a269ff9cfc733cbcae, type: 3}
+  m_Script: {fileID: 11500000, guid: a7122d7147bb1a6d89b5e4597c64c034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   turnManager: {fileID: 1621612804}
+  boardPainter: {fileID: 1565941485}
 --- !u!4 &1554255230
 Transform:
   m_ObjectHideFlags: 0

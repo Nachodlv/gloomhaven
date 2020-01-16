@@ -27,10 +27,10 @@ public class GameController : MonoBehaviour
         characters =
             charactersPositions.ToDictionary(characterPosition => characterPosition.character, _ => true);
     }
-
-    /**
-     * Subscribes to the OnRoundEnd of the turn manager and starts the round with the list of characters.
-     */
+    
+    /// <summary>
+    /// Subscribes to the OnRoundEnd of the turn manager and starts the round with the list of characters.
+    /// </summary>
     private void Start()
     {
         PositionCharacters();

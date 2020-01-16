@@ -12,9 +12,11 @@ public class BoardPainter : MonoBehaviour
 
     [Tooltip("Color used to represent the walking range of the character")] [SerializeField]
     private Color walkingRange = Color.blue;
-    
-    [NonSerialized]
-    public Board board;
+
+    private Color abilityRange = Color.yellow;
+    private Color abilityAreaOfEffect = Color.red;
+
+    [NonSerialized] public Board board;
 
     private Dictionary<Character, List<Square>> walkedSquaresPainted;
 
@@ -44,19 +46,11 @@ public class BoardPainter : MonoBehaviour
     }
 
     /**
-     * Returns the path that the character needs to make between his position and the square.
-     */
-    private List<Square> GetPath(Character character, Square square)
-    {
-        return board.GetPath(board.GetCharacterSquare(character), square);
-    }
-    
-    /**
      * Paint the squares that the character is able to move
      */
     public void PaintWalkingRange(Character character)
     {
-        GetRange(character).ForEach(s => s.AddColor(walkingRange));
+        GetWalkingRange(character).ForEach(s => s.AddColor(walkingRange));
     }
 
     /**
@@ -64,15 +58,44 @@ public class BoardPainter : MonoBehaviour
      */
     public void UnPaintWalkingRange(Character character)
     {
-        GetRange(character).ForEach(s => s.RemoveColor(walkingRange));
+        GetWalkingRange(character).ForEach(s => s.RemoveColor(walkingRange));
+    }
+
+    public void PaintAbilityRange(Character character, int range)
+    {
+        var rangeToColor = board.GetRange(board.GetCharacterSquare(character), range);
+        rangeToColor.ForEach(square => square.AddColor(abilityRange));
+    }
+
+    public void UnPaintAbilityRange(Character character, int range)
+    {
+        var rangeToColor = board.GetRange(board.GetCharacterSquare(character), range);
+        rangeToColor.ForEach(square => square.RemoveColor(abilityRange));
+    }
+
+    public void PaintAbilityAreaOfEffect(Square destination, List<Vector2Int> areaOfEffect)
+    {
+        GetAbilityAreaOfEffect(destination, areaOfEffect).ForEach(square => square.AddColor(abilityAreaOfEffect));
+    }
+
+    public void UnPaintAbilityAreaOfEffect(Square destination, List<Vector2Int> areaOfEffect)
+    {
+        GetAbilityAreaOfEffect(destination, areaOfEffect).ForEach(square => square.RemoveColor(abilityAreaOfEffect));
     }
 
     /**
      * Returns the squares that the character is able to move
      */
-    private List<Square> GetRange(Character character)
+    private List<Square> GetWalkingRange(Character character)
     {
         var characterSquare = board.GetCharacterSquare(character);
         return board.GetRange(characterSquare, (int) character.Stats.Speed);
-    } 
+    }
+
+    private List<Square> GetAbilityAreaOfEffect(Square destination, List<Vector2Int> areaOfEffect)
+    {
+        var positions = areaOfEffect.Select(position =>
+            new Vector2Int(position.x + destination.x, position.y + destination.y)).ToList();
+        return board.GetSquares(positions);
+    }
 }

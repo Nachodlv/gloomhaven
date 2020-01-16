@@ -8,7 +8,7 @@ namespace Abilities
         public int initiative;
         public int defence;
         public int health ;
-        public int sp;
+        public int mana;
         public int speed;
     }
 }
