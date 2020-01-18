@@ -7,5 +7,5 @@ public class AbilityUI : MonoBehaviour
 {
     public string abilityName;
     public string description;
-    public Image icon;
+    public Sprite icon;
 }

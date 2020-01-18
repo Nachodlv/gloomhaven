@@ -3,9 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using Abilities;
 using UnityEngine;
+using Utils;
 
 public class SquareSelection
 {
+
+    /// <summary>
+    /// Paints the walking range of the character.
+    /// </summary>
+    /// <param name="boardPainter">Used to paint the walking range</param>
+    /// <param name="character">The character used to get the walking range</param>
+    public static void StartWalking(BoardPainter boardPainter,  Character character)
+    {
+        boardPainter.PaintWalkingRange(character);
+    }
+
+    /// <summary>
+    /// Removes the paint of the walking range and the walking squares if there was any.
+    /// </summary>
+    /// <param name="boardPainter">Used to remove the paint.</param>
+    /// <param name="character">The character used to get the walking range and the walking squares</param>
+    public static void StopWalking(BoardPainter boardPainter, Character character)
+    {
+        RemovesPainting(boardPainter, character);
+    }
+    
     /// <summary>
     /// Moves the player to the selected square. Uses the <paramref name="boardPainter"/> to remove the colors from the
     /// walking range and the walking trail.

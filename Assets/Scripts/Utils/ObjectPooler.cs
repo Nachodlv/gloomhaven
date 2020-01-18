@@ -7,7 +7,7 @@ using Utils;
 
 public class ObjectPooler
 {
-    private List<Pooleable> _objects;
+    private List<Pooleable> objects;
     private int initialQuantity;
     private GameObject parent;
     private Pooleable objectToPool;
@@ -27,16 +27,21 @@ public class ObjectPooler
             name = parentName
         };
         this.objectToPool = pooleable;
-        _objects = new List<Pooleable>();
+        objects = new List<Pooleable>();
         Grow();
     }
 
+    /// <summary>
+    /// Returns the next Pooleable deactivated.
+    /// If the are no more Pooleables deactivated then it will instantiate more.
+    /// </summary>
+    /// <returns></returns>
     public Pooleable GetNextObject()
     {
-        if (!_objects.Any()) Grow();
+        if (!objects.Any()) Grow();
     
-        var first = _objects.First();
-        _objects.RemoveAt(0);
+        var first = objects.First();
+        objects.RemoveAt(0);
         first.Activate(this);
         return first;
     }
@@ -46,12 +51,18 @@ public class ObjectPooler
         for (var i = 0; i < initialQuantity; i++)
         {
             var newObject = Object.Instantiate(objectToPool, parent.transform, true);
-            _objects.Add(newObject);
+            newObject.gameObject.SetActive(false);
+            objects.Add(newObject);
         }
     }
 
+    /// <summary>
+    /// Adds the Pooleable to the objects lists meaning that the Pooleable is ready to be used again.
+    /// </summary>
+    /// <remarks>This method is executed by the Pooleable itself when is no more needed</remarks>
+    /// <param name="pooleable">The Pooleable that was deactivated</param>
     public void PooleableDeactivated(Pooleable pooleable)
     {
-        _objects.Add(pooleable);
+        objects.Add(pooleable);
     }
 }

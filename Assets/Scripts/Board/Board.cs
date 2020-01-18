@@ -75,7 +75,11 @@ public class Board : MonoBehaviour
      */
     public int MoveCharacter(Character character, List<Square> path, Action onFinishMoving)
     {
-        if (path.Count == 0) return 0;
+        if (path.Count == 0)
+        {
+            onFinishMoving();
+            return 0;
+        }
         character.GetComponent<Movable>()
             .MoveCharacter(path.Select(square => square.transform.position).ToList(), onFinishMoving);
         characters[character] = path[path.Count - 1];

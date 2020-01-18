@@ -7,11 +7,6 @@ public class Pooleable : MonoBehaviour
 {
     private ObjectPooler objectPooler;
 
-    protected void Start()
-    {
-        gameObject.SetActive(false);
-    }
-
     /// <summary>
     /// Activates the game object.
     /// </summary>

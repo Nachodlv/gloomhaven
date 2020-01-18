@@ -10,18 +10,21 @@ public class Character : MonoBehaviour
     [NonSerialized]
     public Stats Stats;
     [NonSerialized]
-    public List<Ability> Abilities;
+    public Ability[] Abilities;
     
     [SerializeField]
     [Tooltip("Abilities prefabs that the character will have")]
-    private List<Ability> abilitiesPrefab;
+    private Ability[] abilitiesPrefab;
 
     private void Awake()
     {
         Stats = GetComponent<Stats>();
         
-        // Instantiates the abilities prefabs
-        Abilities = abilitiesPrefab.Select(a => Instantiate(a, transform)).ToList();
+        Abilities = new Ability[abilitiesPrefab.Length];
+        for (var i = 0; i < abilitiesPrefab.Length; i++)
+        {
+            Abilities[i] = Instantiate(abilitiesPrefab[i], transform);
+        }
     }
 
     /**
@@ -31,6 +34,7 @@ public class Character : MonoBehaviour
     public void OnRoundEnd()
     {
         ReduceDurationStatusEffects();
+        ReduceCooldownAbilities();
     }
 
     /**
@@ -46,5 +50,13 @@ public class Character : MonoBehaviour
             if (se.Duration <= 0) toBeRemoved.Add(se);
         });
         toBeRemoved.ForEach(se => Stats.RemoveStatusEffect(se));
+    }
+
+    private void ReduceCooldownAbilities()
+    {
+        foreach (var ability in Abilities)
+        {
+            if (ability.currentCooldown > 0) ability.currentCooldown--;
+        }
     }
 }

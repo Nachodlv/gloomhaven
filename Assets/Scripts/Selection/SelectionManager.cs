@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Selection;
 using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
@@ -10,8 +11,9 @@ public class SelectionManager : MonoBehaviour
 
     private SquareSelection squareSelection;
     private AbilitySelection abilitySelection;
+    private SelectorState currentSelector;
     private bool moving;
-    private bool abilitySelected = true;
+    private bool abilitySelected;
 
     private void Awake()
     {
@@ -31,15 +33,19 @@ public class SelectionManager : MonoBehaviour
 
         if (abilitySelected)
         {
-            abilitySelection.OnSquareSelected(boardPainter, square, character, OnAbilityUsed);
+            abilitySelection.OnSquareSelected(boardPainter, square, character, OnAbilityUnSelected);
+            
         }
         else
+        {
+            moving = true;
             squareSelection.OnSquareSelected(boardPainter, square, character, () =>
             {
                 moving = false;
                 if (character.Stats.Speed > 0) boardPainter.PaintWalkingRange(character);
                 else EndTurn();
             });
+        }
     }
 
     /**
@@ -52,7 +58,7 @@ public class SelectionManager : MonoBehaviour
         if (moving) return;
         var character = turnManager.GetCurrentCharacter();
 
-        if (abilitySelected) abilitySelection.OnSquareHovered(boardPainter, square);
+        if (abilitySelected) abilitySelection.OnSquareHovered(boardPainter, square, character);
         else squareSelection.OnSquareHovered(boardPainter, square, character);
     }
 
@@ -65,7 +71,7 @@ public class SelectionManager : MonoBehaviour
     {
         var character = turnManager.GetCurrentCharacter();
 
-        if (abilitySelected) abilitySelection.OnSquareUnHovered(boardPainter, square);
+        if (abilitySelected) abilitySelection.OnSquareUnHovered(boardPainter, character);
         else squareSelection.OnSquareUnHovered(boardPainter, character);
     }
 
@@ -77,28 +83,25 @@ public class SelectionManager : MonoBehaviour
     /// This method is called when an ability is selected on the UI.
     /// </remarks>
     /// <param name="ability">Ability selected on the UI</param>
-    public void OnAbilitySelected(Ability ability)
+    public void OnAbilitySelected(Ability ability, Action onAbilityUsed)
     {
-        abilitySelection.OnAbilitySelected(ability);
+        if (moving)
+        {
+            onAbilityUsed();
+            return;
+        }
         abilitySelected = true;
-        boardPainter.PaintAbilityRange(turnManager.GetCurrentCharacter(), ability.range);
+        var character = turnManager.GetCurrentCharacter();
+        abilitySelection.OnAbilitySelected(ability, boardPainter, character, onAbilityUsed);
+        SquareSelection.StopWalking(boardPainter, character);
     }
 
-    /// <summary>
-    /// Un paint the ability range that was selected and paint the walking range of the current character
-    /// </summary>
-    /// <remarks>This method is executed when an ability was successfully used</remarks>
-    private void OnAbilityUsed()
+    public void OnAbilityUnSelected()
     {
         abilitySelected = false;
-        boardPainter.UnPaintAbilityRange(turnManager.GetCurrentCharacter(), abilitySelection.Ability.range);
-        boardPainter.PaintWalkingRange(turnManager.GetCurrentCharacter());
-    }
-
-    public void StartTurn() //TODO remove
-    {
         var character = turnManager.GetCurrentCharacter();
-        OnAbilitySelected(character.Abilities[0]);
+        abilitySelection.UnSelectAbility(boardPainter, character);
+        SquareSelection.StartWalking(boardPainter, character);
     }
 
     /// <summary>
@@ -107,7 +110,6 @@ public class SelectionManager : MonoBehaviour
     /// <remarks><see cref="TurnManager.EndTurn()"/> for more information.</remarks>
     private void EndTurn()
     {
-        abilitySelected = true;
         turnManager.EndTurn();
     }
 }

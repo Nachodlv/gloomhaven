@@ -6,10 +6,11 @@ public class TurnManager : MonoBehaviour
 {
     public delegate void RoundEnd();
     public event RoundEnd OnRoundEnd;
-
     
     public BoardPainter boardPainter;
 
+    [SerializeField][Tooltip("Used to build the character UI")]
+    private CurrentCharacterUI currentCharacterUi;
     private List<Character> charactersOrdered;
     private int currentTurn;
 
@@ -24,12 +25,15 @@ public class TurnManager : MonoBehaviour
         NextTurn();
     }
 
-    /**
-     * Paint the walking range of the character who is playing
-     */
+    /// <summary>
+    /// Paint the walking range of the character who is playing.
+    /// Set the current character in the UI.
+    /// </summary>
     private void NextTurn()
     {
-        FindObjectOfType<SelectionManager>().StartTurn(); //TODO remove
+        var character = GetCurrentCharacter();
+        boardPainter.PaintWalkingRange(character);
+        currentCharacterUi.SetCurrentCharacter(character);
     }
 
     /**

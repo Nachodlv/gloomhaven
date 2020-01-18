@@ -8,7 +8,7 @@ public class Hoverable : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        onMouseEnter(gameObject);
+        if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) onMouseEnter(gameObject);
     }
 
     private void OnMouseExit()

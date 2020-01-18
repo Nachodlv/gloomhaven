@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6397372805089507767}
   - component: {fileID: 6397372805089507766}
+  - component: {fileID: -3133360073740968895}
   m_Layer: 0
   m_Name: Fireball Ability
   m_TagString: Untagged
@@ -45,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 0
   range: 8
-  prefab: {fileID: -8805010989947308726, guid: 2ee8face7c95002ca93546e43d2f2698, type: 3}
   cooldown: 2
   statsModifier:
     initiative: 0
@@ -61,5 +61,21 @@ MonoBehaviour:
       mana: 0
       speed: 0
     Duration: 2
+  abilityType: 0
   speed: 5
   rangeOfAreaOfEffect: 2
+--- !u!114 &-3133360073740968895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397372805089507765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af73ebcf9ba8c5d67a59bd610d164c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: Fireball
+  description: It is hot!
+  icon: {fileID: 21300000, guid: 83fb7f27054efaa58bb3f4febfe8117e, type: 3}

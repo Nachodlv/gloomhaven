@@ -29,11 +29,12 @@ public class ProjectileAbility : Ability
     /// <param name="destination">The destination of the ability</param>
     public override void CastAbility(Vector3 origin, Vector3 destination)
     {
+        base.CastAbility(origin, destination);
         var projectile = objectPooler.GetNextObject();
-        projectile.Activate(objectPooler);
         projectile.transform.position = origin;
         var middlePoint = (origin + destination) / 2;
         middlePoint.y += 5;
+        // TODO maybe consider move it to an Update function to avoid GC
         StartCoroutine(MoveToDestination(projectile, middlePoint,
             () => StartCoroutine(MoveToDestination(projectile, destination, () => ArriveAtDestination(projectile)))));
     }

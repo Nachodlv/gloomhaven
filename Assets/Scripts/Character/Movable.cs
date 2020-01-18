@@ -47,7 +47,11 @@ public class Movable : MonoBehaviour
      */
     public void MoveCharacter(List<Vector3> positions, Action moveFinished)
     {
-        if (!positions.Any()) return;
+        if (!positions.Any())
+        {
+            moveFinished();
+            return;
+        }
         
         animator.SetBool(Moving, true);
         nextPositions.AddRange(positions);

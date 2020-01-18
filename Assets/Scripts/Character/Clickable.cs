@@ -7,6 +7,6 @@ public class Clickable : MonoBehaviour
 
     private void OnMouseDown()
     {
-        onMouseDown(gameObject);
+        if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) onMouseDown(gameObject);
     }
 }
