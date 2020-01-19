@@ -56,7 +56,7 @@ public class Character : MonoBehaviour
     {
         foreach (var ability in Abilities)
         {
-            if (ability.currentCooldown > 0) ability.currentCooldown--;
+            if (ability.CurrentCooldown > 0) ability.CurrentCooldown--;
         }
     }
 }

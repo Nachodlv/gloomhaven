@@ -22,12 +22,16 @@ public class BoardPainter : MonoBehaviour
     [NonSerialized] public Board board;
 
     private Dictionary<Character, List<Square>> walkedSquaresPainted;
+    private Dictionary<Character, List<Square>> walkingRangePainted;
     private Dictionary<Character, List<Square>> abilityAreaOfEffectPainted;
+    private Dictionary<Character, List<Square>> abilityRangePainted;
 
     private void Awake()
     {
         walkedSquaresPainted = new Dictionary<Character, List<Square>>();
+        walkingRangePainted = new Dictionary<Character, List<Square>>();
         abilityAreaOfEffectPainted = new Dictionary<Character, List<Square>>();
+        abilityRangePainted = new Dictionary<Character, List<Square>>();
         board = GetComponent<Board>();
     }
 
@@ -59,38 +63,61 @@ public class BoardPainter : MonoBehaviour
     /// <param name="character"></param>
     public void PaintWalkingRange(Character character)
     {
-        GetWalkingRange(character).ForEach(s => s.AddColor(walkingRange));
+        var range = board.GetRange(board.GetCharacterSquare(character), (int) character.Stats.Speed);
+        walkingRangePainted.Add(character, range);
+
+        foreach (var square in range)
+        {
+            square.AddColor(walkingRange);
+        }
     }
 
     /// <summary>
-    /// <para>Removes the colors from the squares that the character is able to move</para>
+    /// <para>Removes the walking character range color from the board</para>
     /// </summary>
     /// <param name="character"></param>
     public void UnPaintWalkingRange(Character character)
     {
-        GetWalkingRange(character).ForEach(s => s.RemoveColor(walkingRange));
+        if (!walkingRangePainted.ContainsKey(character)) return;
+        foreach (var square in walkingRangePainted[character])
+        {
+            square.RemoveColor(walkingRange);
+        }
+
+        walkingRangePainted.Remove(character);
     }
 
     /// <summary>
-    /// Paints the range of the ability using the character as center with the abilityRange color.
+    /// <para> Paints the range of the ability using the character as center with the abilityRange color. 
+    /// It assigns the character to the squares painted for more efficient painting removal.</para>
     /// </summary>
     /// <param name="character"></param>
     /// <param name="range"></param>
     public void PaintAbilityRange(Character character, int range)
     {
         var rangeToColor = board.GetRange(board.GetCharacterSquare(character), range);
-        rangeToColor.ForEach(square => square.AddColor(abilityRange));
+        abilityRangePainted.Add(character, rangeToColor);
+        foreach (var square in rangeToColor)
+        {
+            square.AddColor(abilityRange);
+        }
+
     }
 
     /// <summary>
-    /// Remove the abilityRange color from the range using the character as center.
+    /// <para>Remove the abilityRange color assigned to the character</para>
     /// </summary>
     /// <param name="character"></param>
-    /// <param name="range"></param>
-    public void UnPaintAbilityRange(Character character, int range)
+    public void UnPaintAbilityRange(Character character)
     {
-        var rangeToColor = board.GetRange(board.GetCharacterSquare(character), range);
-        rangeToColor.ForEach(square => square.RemoveColor(abilityRange));
+        if (!abilityRangePainted.ContainsKey(character)) return;
+        var rangeToColor = abilityRangePainted[character];
+        foreach (var square in rangeToColor)
+        {
+            square.RemoveColor(abilityRange);
+        }
+
+        abilityRangePainted.Remove(character);
     }
 
     /// <summary>
@@ -103,7 +130,10 @@ public class BoardPainter : MonoBehaviour
     public void PaintAbilityAreaOfEffect(Character character, Square destination, List<Vector2Int> areaOfEffect)
     {
         var squares = GetAbilityAreaOfEffect(destination, areaOfEffect);
-        squares.ForEach(square => square.AddColor(abilityAreaOfEffect));
+        foreach (var square in squares)
+        {
+            square.AddColor(abilityAreaOfEffect);
+        }
         abilityAreaOfEffectPainted.Add(character, squares);
     }
 
@@ -114,25 +144,18 @@ public class BoardPainter : MonoBehaviour
     public void UnPaintAbilityAreaOfEffect(Character character)
     {
         if (!abilityAreaOfEffectPainted.ContainsKey(character)) return;
-        abilityAreaOfEffectPainted[character].ForEach(square => square.RemoveColor(abilityAreaOfEffect));
+        foreach (var square in abilityAreaOfEffectPainted[character])
+        {
+            square.RemoveColor(abilityAreaOfEffect);
+        }
         abilityAreaOfEffectPainted.Remove(character);
-    }
-
-    /// <summary>
-    /// <para>Returns the squares that the character is able to move</para>
-    /// </summary>
-    /// <param name="character"></param>
-    /// <returns></returns>
-    private List<Square> GetWalkingRange(Character character)
-    {
-        var characterSquare = board.GetCharacterSquare(character);
-        return board.GetRange(characterSquare, (int) character.Stats.Speed);
     }
 
     private List<Square> GetAbilityAreaOfEffect(Square destination, List<Vector2Int> areaOfEffect)
     {
         var positions = areaOfEffect.Select(position =>
-            new Vector2Int(position.x + destination.x, position.y + destination.y)).ToList();
+            new Vector2Int(position.x + destination.Point.x, position.y + destination.Point.y)).ToList();
         return board.GetSquares(positions);
     }
+    
 }

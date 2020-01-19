@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class AbilitySelection
 {
-    public event Action OnAbilityUsed;
-    private Action onAbilityUsed;
+    public delegate void AbilityCasted(Ability ability, Square destination);
+
+    public event AbilityCasted OnAbilityCasted;
     public Ability Ability { get; private set; }
 
     /// <summary>
@@ -21,8 +22,15 @@ public class AbilitySelection
         Action onAbilitySuccessfullyUsed)
     {
         Ability = ability;
-        onAbilityUsed = onAbilitySuccessfullyUsed;
-        boardPainter.PaintAbilityRange(character, ability.range);
+
+        void AbilityCasted(Ability _, Square destination)
+        {
+            onAbilitySuccessfullyUsed();
+            OnAbilityCasted -= AbilityCasted;
+        }
+
+        OnAbilityCasted += AbilityCasted;
+        boardPainter.PaintAbilityRange(character, ability.Range);
     }
 
     /// <summary>
@@ -40,16 +48,15 @@ public class AbilitySelection
     /// Casts the ability assigned from the position of the character to the destination.
     /// It reduces the mana of the character by the cost of the ability.
     /// If the square selected is out of the range of the ability, then the ability is not casted.
+    /// If the cast of the ability is successful then invokes the OnAbilityCasted event.
     /// </summary>
     /// <param name="boardPainter">Used to remove the painting from the range and area of effect of the ability</param>
     /// <param name="destination">The destination of the ability</param>
     /// <param name="character">The character that is playing in this turn</param>
-    /// <param name="onFinishCasting">A function that will be called if the cast of the ability is successful</param>
-    public void OnSquareSelected(BoardPainter boardPainter, Square destination, Character character,
-        Action onFinishCasting)
+    public void OnSquareSelected(BoardPainter boardPainter, Square destination, Character character)
     {
         var characterSquare = boardPainter.board.GetCharacterSquare(character);
-        if (GetDistance(characterSquare, destination) > Ability.range)
+        if (GetDistance(characterSquare, destination) > Ability.Range)
         {
             Debug.Log("Out of range!!");
             return;
@@ -57,10 +64,8 @@ public class AbilitySelection
 
         RemovePainting(boardPainter, character);
         Ability.CastAbility(characterSquare.transform.position,
-            destination.transform.position);
-        ReduceMana(character, Ability.cost);
-        onAbilityUsed.Invoke();
-        onFinishCasting();
+            destination.transform.position, () => OnAbilityCasted?.Invoke(Ability, destination));
+        ReduceMana(character, Ability.Cost);
     }
 
     /// <summary>
@@ -86,7 +91,7 @@ public class AbilitySelection
 
     private void RemovePainting(BoardPainter boardPainter, Character character)
     {
-        boardPainter.UnPaintAbilityRange(character, Ability.range);
+        boardPainter.UnPaintAbilityRange(character);
         boardPainter.UnPaintAbilityAreaOfEffect(character);
     }
 
@@ -100,8 +105,12 @@ public class AbilitySelection
 
     private int GetDistance(Square origin, Square destination)
     {
-        var x = origin.x > destination.x ? origin.x - destination.x : destination.x - origin.x;
-        var y = origin.y > destination.y ? origin.y - destination.y : destination.y - origin.y;
+        var x = origin.Point.x > destination.Point.x
+            ? origin.Point.x - destination.Point.x
+            : destination.Point.x - origin.Point.x;
+        var y = origin.Point.y > destination.Point.y
+            ? origin.Point.y - destination.Point.y
+            : destination.Point.y - origin.Point.y;
         return x + y;
     }
 }

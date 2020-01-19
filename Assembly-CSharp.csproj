@@ -73,6 +73,7 @@
      <Compile Include="Assets\Scripts\Abilities\ProjectileAbility.cs" />
      <Compile Include="Assets\Scripts\Abilities\StatsModifier.cs" />
      <Compile Include="Assets\Scripts\Abilities\StatusEffect.cs" />
+     <Compile Include="Assets\Scripts\AbilityUsedController.cs" />
      <Compile Include="Assets\Scripts\Board\Board.cs" />
      <Compile Include="Assets\Scripts\Board\BoardPainter.cs" />
      <Compile Include="Assets\Scripts\Character\Character.cs" />
@@ -90,13 +91,32 @@
      <Compile Include="Assets\Scripts\UI\AbilityButton.cs" />
      <Compile Include="Assets\Scripts\UI\AbilityUIBuilder.cs" />
      <Compile Include="Assets\Scripts\UI\CurrentCharacterUI.cs" />
+     <Compile Include="Assets\Scripts\UI\FaceCamera.cs" />
      <Compile Include="Assets\Scripts\Utils\BoardCalculator.cs" />
      <Compile Include="Assets\Scripts\Utils\CoroutineHelper.cs" />
      <Compile Include="Assets\Scripts\Utils\ObjectPooler.cs" />
      <Compile Include="Assets\Scripts\Utils\Pooleable.cs" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
      <None Include="Assets\PyroParticles\Prefab\Materials\AdditiveTintable.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\PyroParticles\Readme.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\Medieval Sword\read me.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>/home/ignacio/projects/unity/Gloomhaven/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

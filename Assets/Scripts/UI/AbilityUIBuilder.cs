@@ -54,23 +54,24 @@ namespace UI
                 }
                 else
                 {
-                    button.gameObject.SetActive(false);
+                    button.CanvasGroup.alpha = 0;
                 }
+                
             }
         }
 
         private void BuildAbilityButton(AbilityButton button, Ability ability, SelectionManager selectionManager)
         {
-            button.gameObject.SetActive(true);
-            button.logo.sprite = ability.abilityUI.icon;
+            button.CanvasGroup.alpha = 1;
+            button.Logo.sprite = ability.AbilityUi.icon;
 
-            var isInCooldown = ability.currentCooldown != 0;
-            button.buttonFade.gameObject.SetActive(isInCooldown);
-            button.cooldownRemaining.gameObject.SetActive(isInCooldown);
+            var isInCooldown = ability.CurrentCooldown != 0;
+            button.ButtonFadeCg.alpha = isInCooldown ? 1 : 0;
+            button.CooldownRemainingCg.alpha = isInCooldown ? 1 : 0;
             button.Button.enabled = !isInCooldown;
             button.Image.color = unSelectedColor;
 
-            if (isInCooldown) button.cooldownRemaining.text = ability.currentCooldown.ToString();
+            if (isInCooldown) button.CooldownRemaining.text = ability.CurrentCooldown.ToString();
             else OnClickOperation(button, ability, selectionManager);
         }
 
@@ -82,7 +83,7 @@ namespace UI
                 if (isAButtonSelected)
                 {
                     selectedButton.Image.color = unSelectedColor;
-                    selectionManager.OnAbilityUnSelected();
+                    selectionManager.AbilityUnselected();
                 }
 
                 if (isAButtonSelected && selectedButton == abilityButton)

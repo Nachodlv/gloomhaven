@@ -21,11 +21,21 @@ public class Board : MonoBehaviour
 
     private Dictionary<Character, Square> characters;
     private List<List<Square>> squares;
+    private List<List<Vector2Int>> squarePoints;
+
+    public Dictionary<Character, Square> Characters => characters;
+
+    private Vector2Int minPoint;
+    private Vector2Int maxPoint;
 
     private void Awake()
     {
         characters = new Dictionary<Character, Square>();
+        minPoint = new Vector2Int(0, 0);
+        maxPoint = new Vector2Int(width - 1, height - 1);
+
         InstantiateSquares();
+        squarePoints = FromSquaresToPoints();
     }
 
     /**
@@ -49,8 +59,7 @@ public class Board : MonoBehaviour
             {
                 var newSquare = Instantiate(squarePrefab, new Vector3(x, 0, z), squarePrefab.transform.rotation,
                     transform);
-                newSquare.x = i;
-                newSquare.y = j;
+                newSquare.Point = new Vector2Int(i, j);
                 AssignSelection(newSquare);
                 column.Add(newSquare.GetComponent<Square>());
                 x += spriteHeight;
@@ -80,6 +89,7 @@ public class Board : MonoBehaviour
             onFinishMoving();
             return 0;
         }
+
         character.GetComponent<Movable>()
             .MoveCharacter(path.Select(square => square.transform.position).ToList(), onFinishMoving);
         characters[character] = path[path.Count - 1];
@@ -93,9 +103,9 @@ public class Board : MonoBehaviour
      */
     public List<Square> GetPath(Square from, Square to)
     {
-        var path = BoardCalculator.CalculatePath(FromSquareToPoint(from), FromSquareToPoint(to),
-            characters.Values.Select(FromSquareToPoint).ToList());
-        return path.Select(FromPointToSquare).ToList();
+        var path = BoardCalculator.CalculatePath(from.Point, to.Point,
+            characters.Values.Select(v => v.Point).ToList(), squarePoints, minPoint, maxPoint);
+        return path.Select(FromVectorToSquare).ToList();
     }
 
     /**
@@ -103,9 +113,14 @@ public class Board : MonoBehaviour
      */
     public List<Square> GetRange(Square center, int distance)
     {
-        var range = BoardCalculator.CalculateRange(FromSquareToPoint(center), distance, new Point(0, 0),
-            new Point(width - 1, height - 1));
-        return range.Select(FromPointToSquare).ToList();
+        var range = BoardCalculator.CalculateRange(center.Point, distance, minPoint, maxPoint, squarePoints);
+        var rangeSquares = new List<Square>(range.Count);
+        foreach (var point in range)
+        {
+            rangeSquares.Add(FromVectorToSquare(point));
+        }
+
+        return rangeSquares;
     }
 
     /**
@@ -141,22 +156,30 @@ public class Board : MonoBehaviour
     /// <returns>A list of the squares in the given <paramref name="positions"/></returns>
     public List<Square> GetSquares(List<Vector2Int> positions)
     {
-        var squaresToReturn = new List<Square>();
-        positions.ForEach(position =>
+        var squaresToReturn = new List<Square>(positions.Count);
+        foreach (var position in positions)
         {
-            if (position.x < height && position.x >= 0 && position.y < width && position.y >= 0) 
+            if (position.x < height && position.x >= 0 && position.y < width && position.y >= 0)
                 squaresToReturn.Add(squares[position.x][position.y]);
-        });
+        }
+
         return squaresToReturn;
     }
 
-    private Square FromPointToSquare(Point point)
+    public Square GetSquare(int x, int y)
     {
-        return squares[point.X][point.Y];
+        if (x < height && x >= 0 && y < width && y >= 0)
+            return squares[x][y];
+        return null;
     }
 
-    private static Point FromSquareToPoint(Square square)
+    private Square FromVectorToSquare(Vector2Int vector)
     {
-        return new Point(square.x, square.y);
+        return squares[vector.x][vector.y];
+    }
+
+    private List<List<Vector2Int>> FromSquaresToPoints()
+    {
+        return squares.Select(col => col.Select(square => square.Point).ToList()).ToList();
     }
 }

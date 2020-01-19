@@ -13,6 +13,14 @@ public class TurnManager : MonoBehaviour
     private CurrentCharacterUI currentCharacterUi;
     private List<Character> charactersOrdered;
     private int currentTurn;
+    private AbilityUsedController abilityUsedController;
+
+    public AbilityUsedController AbilityUsedController => abilityUsedController;
+
+    private void Awake()
+    {
+        abilityUsedController = new AbilityUsedController(boardPainter.board);
+    }
 
     /**
      * Sorts the characters by its initiative and starts the first turn

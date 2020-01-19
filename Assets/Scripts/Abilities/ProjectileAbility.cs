@@ -15,11 +15,34 @@ public class ProjectileAbility : Ability
     [SerializeField] [Tooltip("Squares that the ability will affect around the destination")]
     private int rangeOfAreaOfEffect;
 
+    private List<Vector3> targets;
+    private Pooleable projectile;
+    private bool hasTargets;
+    private Action finishCasting;
+
     protected override void Awake()
     {
         base.Awake();
-        AreaOfEffect = BoardCalculator.CalculateRange(new Point(0, 0), rangeOfAreaOfEffect)
-            .Select(p => new Vector2Int(p.X, p.Y)).ToList();
+        AreaOfEffect = BoardCalculator.CalculateRange(new Vector2Int(0, 0), rangeOfAreaOfEffect)
+            .Select(p => new Vector2Int(p.x, p.y)).ToList();
+        targets = new List<Vector3>();
+    }
+
+    private void Update()
+    {
+        if (!hasTargets || targets.Count == 0) return;
+        if (Vector3.Distance(projectile.transform.position, targets[0]) < 0.01f)
+        {
+            targets.RemoveAt(0);
+            if (targets.Count == 0)
+            {
+                FinishMoving();
+                return;
+            }
+        }
+
+        projectile.transform.position =
+            Vector3.MoveTowards(projectile.transform.position, targets[0], speed * Time.deltaTime);
     }
 
     /// <summary>
@@ -27,45 +50,25 @@ public class ProjectileAbility : Ability
     /// </summary>
     /// <param name="origin">The origin of the ability</param>
     /// <param name="destination">The destination of the ability</param>
-    public override void CastAbility(Vector3 origin, Vector3 destination)
+    /// <param name="onFinishCasting">The method that will be invoked when the ability reaches its destination</param>
+    public override void CastAbility(Vector3 origin, Vector3 destination, Action onFinishCasting)
     {
-        base.CastAbility(origin, destination);
-        var projectile = objectPooler.GetNextObject();
+        base.CastAbility(origin, destination, onFinishCasting);
+        projectile = ObjectPooler.GetNextObject();
         projectile.transform.position = origin;
         var middlePoint = (origin + destination) / 2;
         middlePoint.y += 5;
-        // TODO maybe consider move it to an Update function to avoid GC
-        StartCoroutine(MoveToDestination(projectile, middlePoint,
-            () => StartCoroutine(MoveToDestination(projectile, destination, () => ArriveAtDestination(projectile)))));
-    }
 
-    /// <summary>
-    ///     <para> Deactivates the projectile</para>
-    /// </summary>
-    /// <remarks>This method is executed when the <paramref name="projectile"/> reaches his final destination</remarks>
-    /// <param name="projectile">The projectile that will be deactivated</param>
-    private void ArriveAtDestination(Pooleable projectile)
+        hasTargets = true;
+        targets.Add(middlePoint);
+        targets.Add(destination);
+        finishCasting = onFinishCasting;
+    }
+    
+    private void FinishMoving()
     {
+        hasTargets = false;
         projectile.Deactivate();
-    }
-
-    /// <summary>
-    ///     <para>Coroutine used to move the projectile to its destination</para>
-    /// </summary>
-    /// <param name="projectile">Pooleable that the method will move</param>
-    /// <param name="destination">The target that will be used as destination</param>
-    /// <param name="onFinish">The Action that will be executed when the projectile reaches his destination</param>
-    /// <returns></returns>
-    private IEnumerator MoveToDestination(Pooleable projectile, Vector3 destination, Action onFinish)
-    {
-        while (Vector3.Distance(projectile.transform.position, destination) > 0.01f)
-        {
-            projectile.transform.position =
-                Vector3.MoveTowards(projectile.transform.position, destination, speed * Time.deltaTime);
-            yield return new WaitForEndOfFrame();
-        }
-
-        onFinish();
-        yield return null;
+        finishCasting();
     }
 }

@@ -7,46 +7,53 @@ using UnityEngine;
 [RequireComponent(typeof(AbilityUI))]
 public abstract class Ability : MonoBehaviour
 {
-    [Tooltip("Cost in mana that the ability costs")]
-    public int cost;
+    [SerializeField] [Tooltip("Cost in mana that the ability costs")]
+    private int cost;
 
-    [Tooltip("Range of the ability in squares")]
-    public int range;
+    public int Cost => cost;
+
+    [SerializeField] [Tooltip("Range of the ability in squares")]
+    private int range;
+
+    public int Range => range;
+
+    [SerializeField] [Tooltip("The stats that will affect if the ability hits a player")]
+    private StatsModifier statsModifier;
+
+    public StatsModifier StatsModifier => statsModifier;
 
     [SerializeField] [Tooltip("Quantity of turns that the character will need to wait to use the ability again")]
     private int cooldown;
-    
-    [SerializeField] [Tooltip("The stats that will affect if the ability hits a player")]
-    private StatsModifier statsModifier;
+
 
     [SerializeField] [Tooltip("The status effects that will be set on the squares that ability hits")]
     private StatusEffect[] statusEffects;
 
-    [SerializeField] private AbilityType abilityType;
+    [SerializeField] [Tooltip("It is used for getting the corresponding prefab")]
+    private AbilityType abilityType;
 
     [NonSerialized] public List<Vector2Int> AreaOfEffect;
-    [NonSerialized] public AbilityUI abilityUI;
-
-    [NonSerialized] public int currentCooldown;
-    protected ObjectPooler objectPooler;
+    [NonSerialized] public AbilityUI AbilityUi;
+    [NonSerialized] public int CurrentCooldown;
+    protected ObjectPooler ObjectPooler;
 
     /// <summary>
     ///     <para>Cast the ability in the given origin directed to its given destination</para>
     /// </summary>
     /// <param name="origin">The origin of the ability</param>
     /// <param name="destination">The destination of the ability</param>
-    public virtual void CastAbility(Vector3 origin, Vector3 destination)
+    public virtual void CastAbility(Vector3 origin, Vector3 destination, Action finishCasting)
     {
-        currentCooldown = cooldown;
+        CurrentCooldown = cooldown;
     }
 
     protected virtual void Awake()
     {
-        currentCooldown = 0;
-        abilityUI = GetComponent<AbilityUI>();
-        
+        CurrentCooldown = 0;
+        AbilityUi = GetComponent<AbilityUI>();
+
         var poolerProvider = FindObjectOfType<PoolerProvider>();
-        if(poolerProvider == null) Debug.LogError("No pooler provider found");
-        else objectPooler = poolerProvider.GetPooler(abilityType);
+        if (poolerProvider == null) Debug.LogError("No pooler provider found");
+        else ObjectPooler = poolerProvider.GetPooler(abilityType);
     }
 }

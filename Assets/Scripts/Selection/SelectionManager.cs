@@ -12,13 +12,16 @@ public class SelectionManager : MonoBehaviour
     private SquareSelection squareSelection;
     private AbilitySelection abilitySelection;
     private SelectorState currentSelector;
-    private bool moving;
+    private bool actionInProgress;
     private bool abilitySelected;
 
     private void Awake()
     {
         squareSelection = new SquareSelection();
         abilitySelection = new AbilitySelection();
+        abilitySelection.OnAbilityCasted += (ability, destination) => AbilityUnselected();
+        abilitySelection.OnAbilityCasted += (ability, destination) =>
+            turnManager.AbilityUsedController.AbilityUsed(ability, destination);
     }
 
     /**
@@ -28,20 +31,19 @@ public class SelectionManager : MonoBehaviour
      */
     public void OnSquareSelected(Square square)
     {
-        if (moving) return;
+        if (actionInProgress) return;
         var character = turnManager.GetCurrentCharacter();
 
+        actionInProgress = true;
         if (abilitySelected)
         {
-            abilitySelection.OnSquareSelected(boardPainter, square, character, OnAbilityUnSelected);
-            
+            abilitySelection.OnSquareSelected(boardPainter, square, character);
         }
         else
         {
-            moving = true;
             squareSelection.OnSquareSelected(boardPainter, square, character, () =>
             {
-                moving = false;
+                actionInProgress = false;
                 if (character.Stats.Speed > 0) boardPainter.PaintWalkingRange(character);
                 else EndTurn();
             });
@@ -55,7 +57,7 @@ public class SelectionManager : MonoBehaviour
       */
     public void OnSquareHovered(Square square)
     {
-        if (moving) return;
+        if (actionInProgress) return;
         var character = turnManager.GetCurrentCharacter();
 
         if (abilitySelected) abilitySelection.OnSquareHovered(boardPainter, square, character);
@@ -76,28 +78,36 @@ public class SelectionManager : MonoBehaviour
     }
 
 
-    ///<summary>
-    /// It assigns the ability to the <see cref="abilitySelection">abilitySelection</see>
-    /// </summary>
-    /// <remarks>
-    /// This method is called when an ability is selected on the UI.
-    /// </remarks>
-    /// <param name="ability">Ability selected on the UI</param>
+    /// <summary>
+    ///  It assigns the ability to the AbilitySelection.
+    ///  Calls the method StopWalking from SquareSelection
+    ///  </summary>
+    ///  <remarks>
+    ///  This method is called when an ability is selected on the UI.
+    ///  </remarks>
+    ///  <param name="ability">Ability selected on the UI</param>
+    /// <param name="onAbilityUsed">Method that will be called when the ability finish casting</param>
     public void OnAbilitySelected(Ability ability, Action onAbilityUsed)
     {
-        if (moving)
+        if (actionInProgress)
         {
             onAbilityUsed();
             return;
         }
+
         abilitySelected = true;
         var character = turnManager.GetCurrentCharacter();
         abilitySelection.OnAbilitySelected(ability, boardPainter, character, onAbilityUsed);
         SquareSelection.StopWalking(boardPainter, character);
     }
 
-    public void OnAbilityUnSelected()
+    /// <summary>
+    /// Calls the method UnSelectAbility from the AbilitySelection.
+    /// Calls the method StartWalking from the SquareSelection
+    /// </summary>
+    public void AbilityUnselected()
     {
+        actionInProgress = false;
         abilitySelected = false;
         var character = turnManager.GetCurrentCharacter();
         abilitySelection.UnSelectAbility(boardPainter, character);
