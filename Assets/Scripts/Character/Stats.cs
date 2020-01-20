@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Abilities;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Stats : MonoBehaviour
 {
+    public event UnityAction OnStatsChange;
+
     public uint Initiative => Sum(initiative, StatusEffects.Sum(se => se.StatsModifier.initiative));
     public uint Defence => Sum(defence, StatusEffects.Sum(se => se.StatsModifier.defence));
     public uint Health => Sum(health, StatusEffects.Sum(se => se.StatsModifier.health));
     public uint Mana => Sum(mana, StatusEffects.Sum(se => se.StatsModifier.mana));
     public uint Speed => Sum(speed, StatusEffects.Sum(se => se.StatsModifier.speed));
-    public uint MaxHealth => maxHealth;
     public List<StatusEffect> StatusEffects { get; private set; }
 
     [SerializeField] private uint initiative = 1;
@@ -21,17 +23,17 @@ public class Stats : MonoBehaviour
     [SerializeField] private uint mana = 5;
     [SerializeField] private uint speed = 5;
 
-    private uint maxHealth;
 
     private void Awake()
     {
-        maxHealth = health;
         StatusEffects = new List<StatusEffect>();
     }
 
-    /**
-     * Affects the stats depending on the stats passed as parameter
-     */
+    /// <summary>
+    /// <para> Affects the stats depending on the stats passed as parameter.</para>
+    /// <para>Invokes the OnStatsChange event.</para>
+    /// </summary>
+    /// <param name="stats"></param>
     public void ModifyStats(StatsModifier stats)
     {
         initiative = Sum(initiative, stats.initiative);
@@ -43,14 +45,19 @@ public class Stats : MonoBehaviour
             health = Sum(health + defence, stats.health);
         else if (stats.health > 0)
             health = Sum(health, stats.health);
+        
+        OnStatsChange?.Invoke();
     }
 
-    /**
-     * Adds a new status effect to the statusEffects list
-     */
+    /// <summary>
+    /// <para>Adds a new status effect to the statusEffects list</para>
+    /// <para>Invokes the OnStatsChange event</para>
+    /// </summary>
+    /// <param name="statusEffect">Status effect to be added</param>
     public void AddStatusEffect(StatusEffect statusEffect)
     {
         StatusEffects.Add(statusEffect);
+        OnStatsChange?.Invoke();
     }
 
     public void RemoveStatusEffect(StatusEffect statusEffect)

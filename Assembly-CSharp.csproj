@@ -91,9 +91,12 @@
      <Compile Include="Assets\Scripts\UI\AbilityButton.cs" />
      <Compile Include="Assets\Scripts\UI\AbilityUIBuilder.cs" />
      <Compile Include="Assets\Scripts\UI\CurrentCharacterUI.cs" />
-     <Compile Include="Assets\Scripts\UI\FaceCamera.cs" />
+     <Compile Include="Assets\Scripts\UI\FixRotation.cs" />
+     <Compile Include="Assets\Scripts\UI\StatBar.cs" />
+     <Compile Include="Assets\Scripts\UI\StatsUI.cs" />
      <Compile Include="Assets\Scripts\Utils\BoardCalculator.cs" />
      <Compile Include="Assets\Scripts\Utils\CoroutineHelper.cs" />
+     <Compile Include="Assets\Scripts\Utils\MoveCamera.cs" />
      <Compile Include="Assets\Scripts\Utils\ObjectPooler.cs" />
      <Compile Include="Assets\Scripts\Utils\Pooleable.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />

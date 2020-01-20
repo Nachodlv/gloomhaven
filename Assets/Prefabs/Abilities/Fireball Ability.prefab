@@ -44,15 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66247357e60520668ba992b616156803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 1
   range: 8
-  cooldown: 2
   statsModifier:
     initiative: 0
     defence: 0
-    health: -2
+    health: -5
     mana: 0
     speed: 0
+  cooldown: 2
   statusEffects:
   - StatsModifier:
       initiative: 0
