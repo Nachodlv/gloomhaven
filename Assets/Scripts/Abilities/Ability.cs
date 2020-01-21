@@ -52,6 +52,11 @@ public abstract class Ability : MonoBehaviour
         CurrentCooldown = 0;
         AbilityUi = GetComponent<AbilityUI>();
 
+        GetProjectile();
+    }
+
+    protected virtual void GetProjectile()
+    {
         var poolerProvider = FindObjectOfType<PoolerProvider>();
         if (poolerProvider == null) Debug.LogError("No pooler provider found");
         else ObjectPooler = poolerProvider.GetPooler(abilityType);

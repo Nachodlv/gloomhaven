@@ -71,6 +71,10 @@ public class MoveCamera : MonoBehaviour
         ZoomInOrOut();
     }
 
+    /// <summary>
+    /// Moves the camera to the destination.
+    /// </summary>
+    /// <param name="destination"></param>
     public void MoveCameraToLocation(Vector3 destination)
     {
         moveToTarget = true;

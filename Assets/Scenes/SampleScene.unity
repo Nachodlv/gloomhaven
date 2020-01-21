@@ -466,23 +466,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2272252392947583084, guid: 18fcd312efed26ce8814305204aefea3,
-        type: 3}
-      propertyPath: abilitiesPrefab.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2272252392947583084, guid: 18fcd312efed26ce8814305204aefea3,
-        type: 3}
-      propertyPath: abilitiesPrefab.Array.data[1]
-      value: 
-      objectReference: {fileID: 6397372805089507766, guid: 1becf71370f970b79839ae94b0d1f622,
-        type: 3}
-    - target: {fileID: 2272252392947583084, guid: 18fcd312efed26ce8814305204aefea3,
-        type: 3}
-      propertyPath: abilitiesPrefab.Array.data[0]
-      value: 
-      objectReference: {fileID: 6793094285930537607, guid: 67890b58074b73bb1bebbec42d61898b,
-        type: 3}
     - target: {fileID: 2272252393971204007, guid: 18fcd312efed26ce8814305204aefea3,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -2591,11 +2574,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -10
       objectReference: {fileID: 0}
-    - target: {fileID: 4607419836984763248, guid: 18fcd312efed26ce8814305204aefea3,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 963194227}
     - target: {fileID: 831008093276474597, guid: 18fcd312efed26ce8814305204aefea3,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -2676,6 +2654,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 4607419836984763248, guid: 18fcd312efed26ce8814305204aefea3,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 963194227}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18fcd312efed26ce8814305204aefea3, type: 3}
 --- !u!1001 &2782877210652316043

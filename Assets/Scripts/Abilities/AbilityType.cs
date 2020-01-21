@@ -5,6 +5,7 @@ namespace Abilities
     [Serializable]
     public enum AbilityType
     {
-        Fireball
+        Fireball,
+        Melee
     }
 }
