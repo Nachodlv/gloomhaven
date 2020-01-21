@@ -63,7 +63,8 @@ public class BoardPainter : MonoBehaviour
     /// <param name="character"></param>
     public void PaintWalkingRange(Character character)
     {
-        var range = board.GetRange(board.GetCharacterSquare(character), (int) character.Stats.Speed);
+        if(walkingRangePainted.ContainsKey(character)) UnPaintWalkingRange(character);
+        var range = board.GetRange(board.GetCharacterSquare(character), character.Stats.Speed);
         walkingRangePainted.Add(character, range);
 
         foreach (var square in range)

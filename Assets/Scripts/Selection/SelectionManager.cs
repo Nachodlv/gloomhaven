@@ -19,9 +19,12 @@ public class SelectionManager : MonoBehaviour
     {
         squareSelection = new SquareSelection();
         abilitySelection = new AbilitySelection();
-        abilitySelection.OnAbilityCasted += (ability, destination) => AbilityUnselected();
         abilitySelection.OnAbilityCasted += (ability, destination) =>
-            turnManager.AbilityUsedController.AbilityUsed(ability, destination);
+        {
+            actionInProgress = false;
+            AbilityUnselected();
+            turnManager.AbilityUsedController.AbilityUsed(turnManager, ability, destination);
+        };
     }
 
     /**
@@ -103,11 +106,12 @@ public class SelectionManager : MonoBehaviour
 
     /// <summary>
     /// Calls the method UnSelectAbility from the AbilitySelection.
-    /// Calls the method StartWalking from the SquareSelection
+    /// Calls the method StartWalking from the SquareSelection.
+    /// If an action is in progress such as walking or casting an ability then the invocation of this method is ignored.
     /// </summary>
     public void AbilityUnselected()
     {
-        actionInProgress = false;
+        if (actionInProgress) return;
         abilitySelected = false;
         var character = turnManager.GetCurrentCharacter();
         abilitySelection.UnSelectAbility(boardPainter, character);

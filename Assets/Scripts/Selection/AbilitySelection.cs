@@ -9,7 +9,10 @@ public class AbilitySelection
     public delegate void AbilityCasted(Ability ability, Square destination);
 
     public event AbilityCasted OnAbilityCasted;
+    
     public Ability Ability { get; private set; }
+
+    private Action onAbilitySuccessfullyUsed;
 
     /// <summary>
     /// Assigns the ability that will be used and paints it range.
@@ -17,19 +20,12 @@ public class AbilitySelection
     /// <param name="ability">Assigned ability</param>
     /// <param name="boardPainter">Used to paint the range of the ability</param>
     /// <param name="character">Used to get the center of the range</param>
-    /// <param name="onAbilitySuccessfullyUsed">Function that will be called when the ability is casted</param>
+    /// <param name="onAbilityUsed">Function that will be called when the ability is casted</param>
     public void OnAbilitySelected(Ability ability, BoardPainter boardPainter, Character character,
-        Action onAbilitySuccessfullyUsed)
+        Action onAbilityUsed)
     {
         Ability = ability;
-
-        void AbilityCasted(Ability _, Square destination)
-        {
-            onAbilitySuccessfullyUsed();
-            OnAbilityCasted -= AbilityCasted;
-        }
-
-        OnAbilityCasted += AbilityCasted;
+        onAbilitySuccessfullyUsed = onAbilityUsed;
         boardPainter.PaintAbilityRange(character, ability.Range);
     }
 
@@ -64,7 +60,11 @@ public class AbilitySelection
 
         RemovePainting(boardPainter, character);
         Ability.CastAbility(characterSquare.transform.position,
-            destination.transform.position, () => OnAbilityCasted?.Invoke(Ability, destination));
+            destination.transform.position, () =>
+            {
+                onAbilitySuccessfullyUsed?.Invoke();
+                OnAbilityCasted?.Invoke(Ability, destination);
+            });
         ReduceMana(character, Ability.Cost);
     }
 

@@ -50,11 +50,17 @@ namespace UI
                 if (i < abilities.Length)
                 {
                     var ability = abilities[i];
+                    button.CanvasGroup.alpha = 1;
+                    button.CanvasGroup.interactable = true;
+                    button.CanvasGroup.blocksRaycasts = true;
+                    
                     BuildAbilityButton(button, ability, selectionManager);
                 }
                 else
                 {
                     button.CanvasGroup.alpha = 0;
+                    button.CanvasGroup.interactable = false;
+                    button.CanvasGroup.blocksRaycasts = false;
                 }
                 
             }
@@ -62,7 +68,6 @@ namespace UI
 
         private void BuildAbilityButton(AbilityButton button, Ability ability, SelectionManager selectionManager)
         {
-            button.CanvasGroup.alpha = 1;
             button.Logo.sprite = ability.AbilityUi.icon;
 
             var isInCooldown = ability.CurrentCooldown != 0;

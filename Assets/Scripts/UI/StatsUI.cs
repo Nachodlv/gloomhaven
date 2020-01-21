@@ -12,6 +12,9 @@ public class StatsUI : MonoBehaviour
     [SerializeField][Tooltip("Mana bar of the character")]
     private StatBar manaBar;
 
+    [SerializeField][Tooltip("The Canvas Group from the canvas that contains the stats")]
+    private CanvasGroup canvas;
+
     private Stats stats;
     private void Awake()
     {
@@ -31,25 +34,27 @@ public class StatsUI : MonoBehaviour
     /// </summary>
     private void SetInitialStats()
     {
-        var health = (int) stats.Health;
+        var health = stats.Health;
         healthBar.MaxValue = health;
         healthBar.CurrentValue = health;
 
-        var mana = (int) stats.Mana;
+        var mana = stats.Mana;
         manaBar.MaxValue = mana;
         manaBar.CurrentValue = mana;
     }
     
     /// <summary>
     /// <para>
-    /// Updates the health bar and the mana bar with their corresponding stats
+    /// Updates the health bar and the mana bar with their corresponding stats.
+    /// If the health is zero then it hides the canvas where the stats are being displayed.
     /// </para>.
     /// </summary>
     /// <remarks>This method is called when the event OnStatsChange from the Stats class is invoked</remarks>
     private void UpdateStats()
     {
-        healthBar.CurrentValue = (int) stats.Health;
-        manaBar.CurrentValue = (int) stats.Mana;
+        if (stats.Health <= 0) canvas.alpha = 0;
+        healthBar.CurrentValue = stats.Health;
+        manaBar.CurrentValue = stats.Mana;
     }
     
 }

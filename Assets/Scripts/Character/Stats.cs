@@ -10,18 +10,18 @@ public class Stats : MonoBehaviour
 {
     public event UnityAction OnStatsChange;
 
-    public uint Initiative => Sum(initiative, StatusEffects.Sum(se => se.StatsModifier.initiative));
-    public uint Defence => Sum(defence, StatusEffects.Sum(se => se.StatsModifier.defence));
-    public uint Health => Sum(health, StatusEffects.Sum(se => se.StatsModifier.health));
-    public uint Mana => Sum(mana, StatusEffects.Sum(se => se.StatsModifier.mana));
-    public uint Speed => Sum(speed, StatusEffects.Sum(se => se.StatsModifier.speed));
+    public int Initiative => Sum(initiative, StatusEffects.Sum(se => se.StatsModifier.initiative));
+    public int Defence => Sum(defence, StatusEffects.Sum(se => se.StatsModifier.defence));
+    public int Health => Sum(health, StatusEffects.Sum(se => se.StatsModifier.health));
+    public int Mana => Sum(mana, StatusEffects.Sum(se => se.StatsModifier.mana));
+    public int Speed => Sum(speed, StatusEffects.Sum(se => se.StatsModifier.speed));
     public List<StatusEffect> StatusEffects { get; private set; }
 
-    [SerializeField] private uint initiative = 1;
-    [SerializeField] private uint defence = 1;
-    [SerializeField] private uint health = 10;
-    [SerializeField] private uint mana = 5;
-    [SerializeField] private uint speed = 5;
+    [SerializeField] private int initiative = 1;
+    [SerializeField] private int defence = 1;
+    [SerializeField] private int health = 10;
+    [SerializeField] private int mana = 5;
+    [SerializeField] private int speed = 5;
 
 
     private void Awake()
@@ -70,8 +70,9 @@ public class Stats : MonoBehaviour
      * If the results is positive, the return value is the sum of the two values.
      * If the results is negative, the return value is zero.
      */
-    private static uint Sum(uint stat, long modifier)
+    private static int Sum(int stat, long modifier)
     {
-        return (uint) ((int) stat + modifier);
+        var result = (int) (stat + modifier);
+        return result > 0? result : 0;
     }
 }

@@ -35,12 +35,13 @@ public class GameController : MonoBehaviour
     {
         PositionCharacters();
         turnManager.OnRoundEnd += OnRoundEnd;
+        turnManager.OnCharacterDie += OnCharacterDie;
         turnManager.StartRound(characters.Keys.ToList());
     }
 
-    /**
-     * Positions the characters on the board.
-     */
+    /// <summary>
+    /// <para>Positions the characters on the board</para>
+    /// </summary>
     private void PositionCharacters()
     {
         charactersPositions.ForEach(characterPosition =>
@@ -53,21 +54,27 @@ public class GameController : MonoBehaviour
         });
     }
 
-    /**
-     * Tells the characters active that the round has ended.
-     * Starts a new round with them.
-     */
+    /// <summary>
+    /// <para>Tells the characters active that the round has ended.
+    /// Starts a new round with them.</para>
+    /// </summary>
     private void OnRoundEnd()
     {
         GetActiveCharacters().ForEach(c => c.OnRoundEnd());
         turnManager.StartRound(GetActiveCharacters());
     }
 
-    /**
-     * Returns the characters that are still alive.
-     */
+    /// <summary>
+    /// <para>Returns the characters that are still alive.</para>
+    /// </summary>
+    /// <returns></returns>
     private List<Character> GetActiveCharacters()
     {
         return characters.Where(character => character.Value).Select(r => r.Key).ToList();
+    }
+
+    private void OnCharacterDie(Character character)
+    {
+        characters[character] = false;
     }
 }
