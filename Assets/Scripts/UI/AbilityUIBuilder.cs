@@ -100,15 +100,15 @@ namespace UI
                     isAButtonSelected = true;
                     selectedButton = abilityButton;
                     selectedButton.Image.color = selectedColor;
-                    selectionManager.OnAbilitySelected(ability, () => DeselectAbility(ability, selectionManager));
+                    selectionManager.OnAbilitySelected(ability, () => DeselectAbility(abilityButton, ability, selectionManager));
                 }
             });
         }
 
-        private void DeselectAbility(Ability ability, SelectionManager selectionManager)
+        private void DeselectAbility(AbilityButton button, Ability ability, SelectionManager selectionManager)
         {
             isAButtonSelected = false;
-            BuildAbilityButton(selectedButton, ability, selectionManager);
+            BuildAbilityButton(button, ability, selectionManager);
         }
     }
 }

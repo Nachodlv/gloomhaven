@@ -12,7 +12,7 @@ public class SelectionManager : MonoBehaviour
     private SquareSelection squareSelection;
     private AbilitySelection abilitySelection;
     private SelectorState currentSelector;
-    public bool ActionInProgress;
+    private bool actionInProgress;
     private bool abilitySelected;
 
     private void Awake()
@@ -21,7 +21,7 @@ public class SelectionManager : MonoBehaviour
         abilitySelection = new AbilitySelection();
         abilitySelection.OnAbilityCasted += (ability, destination) =>
         {
-            ActionInProgress = false;
+            actionInProgress = false;
             AbilityUnselected();
             turnManager.AbilityUsedController.AbilityUsed(turnManager, ability, destination);
         };
@@ -34,19 +34,19 @@ public class SelectionManager : MonoBehaviour
      */
     public void OnSquareSelected(Square square)
     {
-        if (ActionInProgress) return;
+        if (actionInProgress) return;
         var character = turnManager.GetCurrentCharacter();
 
-        ActionInProgress = true;
+        actionInProgress = true;
         if (abilitySelected)
         {
-            ActionInProgress = abilitySelection.OnSquareSelected(boardPainter, square, character);
+            actionInProgress = abilitySelection.OnSquareSelected(boardPainter, square, character);
         }
         else
         {
             squareSelection.OnSquareSelected(boardPainter, square, character, () =>
             {
-                ActionInProgress = false;
+                actionInProgress = false;
                 if(character != turnManager.GetCurrentCharacter()) return;
                 if (character.Stats.Speed > 0) boardPainter.PaintWalkingRange(character);
             });
@@ -61,7 +61,7 @@ public class SelectionManager : MonoBehaviour
       */
     public void OnSquareHovered(Square square)
     {
-        if (ActionInProgress) return;
+        if (actionInProgress) return;
         var character = turnManager.GetCurrentCharacter();
 
         if (abilitySelected) abilitySelection.OnSquareHovered(boardPainter, square, character);
@@ -93,7 +93,7 @@ public class SelectionManager : MonoBehaviour
     /// <param name="onAbilityUsed">Method that will be called when the ability finish casting</param>
     public void OnAbilitySelected(Ability ability, Action onAbilityUsed)
     {
-        if (ActionInProgress)
+        if (actionInProgress)
         {
             onAbilityUsed();
             return;
@@ -112,19 +112,20 @@ public class SelectionManager : MonoBehaviour
     /// </summary>
     public void AbilityUnselected()
     {
-        if (ActionInProgress) return;
+        if (actionInProgress) return;
         abilitySelected = false;
         var character = turnManager.GetCurrentCharacter();
         abilitySelection.UnSelectAbility(boardPainter, character);
         SquareSelection.StartWalking(boardPainter, character);
     }
     /// <summary>
-    /// Calls the method EndTurn() from TurnManager.
+    /// Calls the method EndTurn() from TurnManager and unselect an ability if there is any selected.
+    /// If ActionInProgress is true then the method returns before doing anything.
     /// </summary>
     /// <remarks><see cref="TurnManager.EndTurn()"/> for more information.</remarks>
     public void EndTurn()
     {
-        if (ActionInProgress) return;
+        if (actionInProgress) return;
         AbilityUnselected();
         turnManager.EndTurn();
     }

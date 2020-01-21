@@ -35,6 +35,10 @@ public class CurrentCharacterUI : MonoBehaviour
         abilityUiBuilder.BuildAbilityButtons(character.Abilities, selectionManager);
     }
 
+    /// <summary>
+    /// Invokes the EndTurn method from the SelectionManager.
+    /// </summary>
+    /// <remarks>This method is called when the endTurnButton is clicked</remarks>
     private void OnTurnEndClicked()
     {
         selectionManager.EndTurn();

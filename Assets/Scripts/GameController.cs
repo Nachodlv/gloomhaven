@@ -11,13 +11,16 @@ public class CharacterPosition
     [Header("Position")] public int x;
     public int z;
 }
+
 [RequireComponent(typeof(TurnManager))]
 public class GameController : MonoBehaviour
 {
     [Tooltip("Characters that will be on the board")] [SerializeField]
     private List<CharacterPosition> charactersPositions;
+
     [SerializeField] private Board board;
     private TurnManager turnManager;
+    [SerializeField] private GameOverUI gameOverUi;
 
     private Dictionary<Character, bool> characters;
 
@@ -27,7 +30,7 @@ public class GameController : MonoBehaviour
         characters =
             charactersPositions.ToDictionary(characterPosition => characterPosition.character, _ => true);
     }
-    
+
     /// <summary>
     /// Subscribes to the OnRoundEnd of the turn manager and starts the round with the list of characters.
     /// </summary>
@@ -70,11 +73,25 @@ public class GameController : MonoBehaviour
     /// <returns></returns>
     private List<Character> GetActiveCharacters()
     {
-        return characters.Where(character => character.Value).Select(r => r.Key).ToList();
+        var activeCharacters = new List<Character>();
+        foreach (var character in this.characters)
+        {
+            if (character.Value) activeCharacters.Add(character.Key);
+        }
+
+        return activeCharacters;
     }
 
     private void OnCharacterDie(Character character)
     {
         characters[character] = false;
+        if (GetActiveCharacters().Count > 1) return;
+
+        GameOver();
+    }
+
+    private void GameOver()
+    {
+        gameOverUi.ShowGameOver();
     }
 }

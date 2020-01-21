@@ -93,6 +93,7 @@
      <Compile Include="Assets\Scripts\UI\AbilityUIBuilder.cs" />
      <Compile Include="Assets\Scripts\UI\CurrentCharacterUI.cs" />
      <Compile Include="Assets\Scripts\UI\FixRotation.cs" />
+     <Compile Include="Assets\Scripts\UI\GameOverUI.cs" />
      <Compile Include="Assets\Scripts\UI\StatBar.cs" />
      <Compile Include="Assets\Scripts\UI\StatsUI.cs" />
      <Compile Include="Assets\Scripts\Utils\BoardCalculator.cs" />
