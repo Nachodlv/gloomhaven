@@ -77,6 +77,7 @@
      <Compile Include="Assets\Scripts\AbilityUsedController.cs" />
      <Compile Include="Assets\Scripts\Board\Board.cs" />
      <Compile Include="Assets\Scripts\Board\BoardPainter.cs" />
+     <Compile Include="Assets\Scripts\Board\Square.cs" />
      <Compile Include="Assets\Scripts\Character\Character.cs" />
      <Compile Include="Assets\Scripts\Character\Clickable.cs" />
      <Compile Include="Assets\Scripts\Character\Hoverable.cs" />
@@ -87,7 +88,6 @@
      <Compile Include="Assets\Scripts\Selection\SelectionManager.cs" />
      <Compile Include="Assets\Scripts\Selection\SelectorState.cs" />
      <Compile Include="Assets\Scripts\Selection\SquareSelection.cs" />
-     <Compile Include="Assets\Scripts\Square.cs" />
      <Compile Include="Assets\Scripts\TurnManager.cs" />
      <Compile Include="Assets\Scripts\UI\AbilityButton.cs" />
      <Compile Include="Assets\Scripts\UI\AbilityUIBuilder.cs" />
@@ -100,6 +100,7 @@
      <Compile Include="Assets\Scripts\Utils\MoveCamera.cs" />
      <Compile Include="Assets\Scripts\Utils\ObjectPooler.cs" />
      <Compile Include="Assets\Scripts\Utils\Pooleable.cs" />
+     <Compile Include="Assets\Scripts\Utils\ResetScene.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />

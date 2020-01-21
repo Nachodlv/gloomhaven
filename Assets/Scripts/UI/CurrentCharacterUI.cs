@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CurrentCharacterUI : MonoBehaviour
 {
@@ -15,11 +16,14 @@ public class CurrentCharacterUI : MonoBehaviour
     [SerializeField] [Tooltip("Color in which the ability logos will be colored when selected")]
     private Color selectColor;
 
+    [SerializeField] private Button endTurnButton;
+
     [NonSerialized] private AbilityUIBuilder abilityUiBuilder;
 
     private void Start()
     {
         abilityUiBuilder = new AbilityUIBuilder(abilityButtons, selectColor);
+        endTurnButton.onClick.AddListener(OnTurnEndClicked);
     }
 
     /// <summary>
@@ -29,5 +33,10 @@ public class CurrentCharacterUI : MonoBehaviour
     public void SetCurrentCharacter(Character character)
     {
         abilityUiBuilder.BuildAbilityButtons(character.Abilities, selectionManager);
+    }
+
+    private void OnTurnEndClicked()
+    {
+        selectionManager.EndTurn();
     }
 }
