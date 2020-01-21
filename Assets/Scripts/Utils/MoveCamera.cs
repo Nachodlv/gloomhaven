@@ -8,17 +8,19 @@ public class MoveCamera : MonoBehaviour
     [SerializeField] [Tooltip("Camera to move")]
     private Camera myCamera;
 
-    [Header("Camera movement")]
-    [SerializeField] [Tooltip("Camera movement speed")]
+    [Header("Camera movement")] [SerializeField] [Tooltip("Camera movement speed")]
     private int speed = 5;
-
+    [NonSerialized]public Vector3 MinPoint;
+    [NonSerialized] public Vector3 MaxPoint;
+    
     [SerializeField]
     [Tooltip(
         "The camera will move when there are less pixels between the mouse and the border of the screen than edgeSize")]
     private float edgeSize = 20;
 
-    [Header("Camera zoom")]
-    [SerializeField] private float maxFieldOfView = 90;
+    [Header("Camera zoom")] [SerializeField]
+    private float maxFieldOfView = 90;
+
     [SerializeField] private float minFieldOfView = 20;
 
     [SerializeField] [Tooltip("Speed at which the camera will zoom in and zoom out")]
@@ -37,21 +39,44 @@ public class MoveCamera : MonoBehaviour
     private KeyCode moveRight = KeyCode.D;
 
     private GameObject cameraFollow;
+    private Vector3 target;
+    private bool moveToTarget;
 
     private void Awake()
     {
         cameraFollow = new GameObject();
+        target = Vector3.zero;
+        
         var cameraTransform = myCamera.transform;
-
         cameraFollow.transform.position = cameraTransform.position;
         cameraTransform.parent = cameraFollow.transform;
+        
+        var cameraPosition = Vector3.zero;
+        cameraPosition.x = 9f;
+        cameraTransform.localPosition = cameraPosition;
     }
 
-    
+
     private void Update()
     {
+        if (moveToTarget)
+        {
+            var position = Vector3.MoveTowards(cameraFollow.transform.position, target, speed * Time.deltaTime);
+            if (Vector3.Distance(position, target) < 0.01f) moveToTarget = false;
+            cameraFollow.transform.position = position;
+            return;
+        }
+
         TranslateCamera();
         ZoomInOrOut();
+    }
+
+    public void MoveCameraToLocation(Vector3 destination)
+    {
+        moveToTarget = true;
+        target.x = destination.x;
+        target.y = cameraFollow.transform.position.y;
+        target.z = destination.z;
     }
 
     /// <summary>
@@ -76,6 +101,9 @@ public class MoveCamera : MonoBehaviour
         if (Input.mousePosition.y < edgeSize) position.x += movement;
         if (Input.mousePosition.x > Screen.width - edgeSize) position.z += movement;
         if (Input.mousePosition.x < edgeSize) position.z -= movement;
+
+        position.x = Math.Min(Math.Max(position.x, MinPoint.x), MaxPoint.x);
+        position.z = Math.Min(Math.Max(position.z, MinPoint.z), MaxPoint.z);
         cameraFollow.transform.position = position;
     }
 
@@ -87,8 +115,8 @@ public class MoveCamera : MonoBehaviour
     private void ZoomInOrOut()
     {
         if (Input.mouseScrollDelta.y > 0 && myCamera.fieldOfView < maxFieldOfView)
-            myCamera.fieldOfView += Time.deltaTime * scrollingSpeed;
+            myCamera.fieldOfView -= Time.deltaTime * scrollingSpeed;
         if (Input.mouseScrollDelta.y < 0 && myCamera.fieldOfView > minFieldOfView)
-            myCamera.fieldOfView -= Time.deltaTime * scrollingSpeed;  
+            myCamera.fieldOfView += Time.deltaTime * scrollingSpeed;
     }
 }

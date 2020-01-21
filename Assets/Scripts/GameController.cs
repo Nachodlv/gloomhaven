@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     private List<CharacterPosition> charactersPositions;
     [SerializeField] private Board board;
     private TurnManager turnManager;
-    
+
     private Dictionary<Character, bool> characters;
 
     private void Awake()

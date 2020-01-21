@@ -1987,11 +1987,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa111e5f1f42e9bf8ef5e9301f6f4de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 10
-  height: 10
+  width: 20
+  height: 20
   squarePrefab: {fileID: 2022787905}
-  initialCharacter: {fileID: 2054098526}
   selectionManager: {fileID: 1554255229}
+  moveCamera: {fileID: 963194229}
 --- !u!4 &1565941484
 Transform:
   m_ObjectHideFlags: 0
@@ -2077,6 +2077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardPainter: {fileID: 1565941485}
   currentCharacterUi: {fileID: 1161007756}
+  moveCamera: {fileID: 963194229}
 --- !u!4 &1621612805
 Transform:
   m_ObjectHideFlags: 0

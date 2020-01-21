@@ -14,6 +14,10 @@ public class TurnManager : MonoBehaviour
 
     [SerializeField][Tooltip("Used to build the character UI")]
     private CurrentCharacterUI currentCharacterUi;
+
+    [SerializeField] [Tooltip("Camera of the game")]
+    private MoveCamera moveCamera;
+    
     private List<Character> charactersOrdered;
     private int currentTurn;
     private AbilityUsedController abilityUsedController;
@@ -44,6 +48,7 @@ public class TurnManager : MonoBehaviour
     private void NextTurn()
     {
         var character = GetCurrentCharacter();
+        moveCamera.MoveCameraToLocation(boardPainter.board.GetCharacterSquare(character).transform.position);
         boardPainter.PaintWalkingRange(character);
         currentCharacterUi.SetCurrentCharacter(character);
     }

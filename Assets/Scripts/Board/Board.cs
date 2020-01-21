@@ -16,9 +16,10 @@ public class Board : MonoBehaviour
     [Header("Square details")] [SerializeField]
     private Square squarePrefab;
 
-    public Character initialCharacter; //TODO remove
     [SerializeField] private SelectionManager selectionManager;
 
+    [SerializeField] private MoveCamera moveCamera;
+    
     private Dictionary<Character, Square> characters;
     private List<List<Square>> squares;
     private List<List<Vector2Int>> squarePoints;
@@ -35,6 +36,8 @@ public class Board : MonoBehaviour
         maxPoint = new Vector2Int(width - 1, height - 1);
 
         InstantiateSquares();
+        moveCamera.MinPoint = squares[0][0].transform.position;
+        moveCamera.MaxPoint = squares[width - 1][height - 1].transform.position;
         squarePoints = FromSquaresToPoints();
     }
 
