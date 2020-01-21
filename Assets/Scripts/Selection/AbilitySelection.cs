@@ -49,13 +49,14 @@ public class AbilitySelection
     /// <param name="boardPainter">Used to remove the painting from the range and area of effect of the ability</param>
     /// <param name="destination">The destination of the ability</param>
     /// <param name="character">The character that is playing in this turn</param>
-    public void OnSquareSelected(BoardPainter boardPainter, Square destination, Character character)
+    /// <returns>If the cast was initiated successful or not.</returns>
+    public bool OnSquareSelected(BoardPainter boardPainter, Square destination, Character character)
     {
         var characterSquare = boardPainter.board.GetCharacterSquare(character);
         if (GetDistance(characterSquare, destination) > Ability.Range)
         {
             Debug.Log("Out of range!!");
-            return;
+            return false;
         }
 
         RemovePainting(boardPainter, character);
@@ -66,6 +67,7 @@ public class AbilitySelection
                 OnAbilityCasted?.Invoke(Ability, destination);
             });
         ReduceMana(character, Ability.Cost);
+        return true;
     }
 
     /// <summary>

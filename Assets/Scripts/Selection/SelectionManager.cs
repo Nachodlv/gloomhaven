@@ -40,7 +40,7 @@ public class SelectionManager : MonoBehaviour
         actionInProgress = true;
         if (abilitySelected)
         {
-            abilitySelection.OnSquareSelected(boardPainter, square, character);
+            actionInProgress = abilitySelection.OnSquareSelected(boardPainter, square, character);
         }
         else
         {
