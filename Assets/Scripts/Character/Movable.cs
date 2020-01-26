@@ -7,8 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(Character))]
 public class Movable : MonoBehaviour
 {
-    [Tooltip("Time it takes to go to the next square in seconds")]
-    [SerializeField]
+    [Tooltip("Time it takes to go to the next square in seconds")] [SerializeField]
     private int speed = 3;
 
     private List<Square> nextPositions;
@@ -38,7 +37,7 @@ public class Movable : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, target, step);
 
         if (Vector3.Distance(transform.position, target) > 0.001f) return;
-        
+
         character.StepOnSquare(nextPositions[0]);
         nextPositions.RemoveAt(0);
         if (nextPositions.Count == 0)
@@ -61,12 +60,12 @@ public class Movable : MonoBehaviour
             moveFinished();
             return;
         }
-        
+
         animator.SetBool(Moving, true);
+        positions = positions.Count > 1 ? positions.GetRange(1, positions.Count - 1) : positions;
         nextPositions.AddRange(positions);
-        
+
         transform.LookAt(positions[0].transform.position);
         onFinishMoving = moveFinished;
     }
-    
 }

@@ -39,7 +39,6 @@ public class SquareSelection
     {
         RemovesPainting(boardPainter, character);
         var path = GetPath(boardPainter.board, character, square);
-        if(path.Count > 1) path = path.GetRange(1, path.Count-1);
         var distance =
             boardPainter.board.MoveCharacter(character, path, onStopMoving);
         ReduceSpeed(character, distance);

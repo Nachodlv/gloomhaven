@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterStats))]
@@ -14,6 +15,11 @@ public class StatsUI : MonoBehaviour
 
     [SerializeField][Tooltip("The Canvas Group from the canvas that contains the stats")]
     private CanvasGroup canvas;
+
+    [SerializeField][Tooltip("Text where the speed of the character will be displayed")]
+    private TextMeshProUGUI speedText;
+    [SerializeField][Tooltip("Text where the defence of the character will be displayed")]
+    private TextMeshProUGUI defenceText;
 
     private CharacterStats characterStats;
     private void Awake()
@@ -36,11 +42,11 @@ public class StatsUI : MonoBehaviour
     {
         var health = characterStats.Health;
         healthBar.MaxValue = health;
-        healthBar.CurrentValue = health;
 
         var mana = characterStats.Mana;
         manaBar.MaxValue = mana;
-        manaBar.CurrentValue = mana;
+        
+        UpdateCharacterStats();
     }
     
     /// <summary>
@@ -55,6 +61,8 @@ public class StatsUI : MonoBehaviour
         if (characterStats.Health <= 0) canvas.alpha = 0;
         healthBar.CurrentValue = characterStats.Health;
         manaBar.CurrentValue = characterStats.Mana;
+        speedText.text = characterStats.Speed.ToString();
+        defenceText.text = characterStats.Defence.ToString();
     }
     
 }
