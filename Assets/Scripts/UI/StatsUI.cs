@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Stats))]
+[RequireComponent(typeof(CharacterStats))]
 public class StatsUI : MonoBehaviour
 {
     [SerializeField][Tooltip("Health bar of the character")]
@@ -15,10 +15,10 @@ public class StatsUI : MonoBehaviour
     [SerializeField][Tooltip("The Canvas Group from the canvas that contains the stats")]
     private CanvasGroup canvas;
 
-    private Stats stats;
+    private CharacterStats characterStats;
     private void Awake()
     {
-        stats = GetComponent<Stats>();
+        characterStats = GetComponent<CharacterStats>();
     }
 
     
@@ -26,7 +26,7 @@ public class StatsUI : MonoBehaviour
     {
         SetInitialStats();
 
-        stats.OnStatsChange += UpdateStats;
+        characterStats.OnStatsChange += UpdateCharacterStats;
     }
 
     /// <summary>
@@ -34,11 +34,11 @@ public class StatsUI : MonoBehaviour
     /// </summary>
     private void SetInitialStats()
     {
-        var health = stats.Health;
+        var health = characterStats.Health;
         healthBar.MaxValue = health;
         healthBar.CurrentValue = health;
 
-        var mana = stats.Mana;
+        var mana = characterStats.Mana;
         manaBar.MaxValue = mana;
         manaBar.CurrentValue = mana;
     }
@@ -50,11 +50,11 @@ public class StatsUI : MonoBehaviour
     /// </para>.
     /// </summary>
     /// <remarks>This method is called when the event OnStatsChange from the Stats class is invoked</remarks>
-    private void UpdateStats()
+    private void UpdateCharacterStats()
     {
-        if (stats.Health <= 0) canvas.alpha = 0;
-        healthBar.CurrentValue = stats.Health;
-        manaBar.CurrentValue = stats.Mana;
+        if (characterStats.Health <= 0) canvas.alpha = 0;
+        healthBar.CurrentValue = characterStats.Health;
+        manaBar.CurrentValue = characterStats.Mana;
     }
     
 }

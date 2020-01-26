@@ -19,7 +19,7 @@ public class Board : MonoBehaviour
     [SerializeField] private SelectionManager selectionManager;
 
     [SerializeField] private MoveCamera moveCamera;
-    
+
     private Dictionary<Character, Square> characters;
     private List<List<Square>> squares;
     private List<List<Vector2Int>> squarePoints;
@@ -41,9 +41,9 @@ public class Board : MonoBehaviour
         squarePoints = FromSquaresToPoints();
     }
 
-    /**
-     * Instantiate the squares multidimensional list using the width and height variables.
-     */
+    /// <summary>
+    /// <para>Instantiate the squares multidimensional list using the width and height variables.</para>
+    /// </summary>
     private void InstantiateSquares()
     {
         var bounds = squarePrefab.GetComponent<SpriteRenderer>().sprite.bounds;
@@ -73,18 +73,25 @@ public class Board : MonoBehaviour
         }
     }
 
-    /**
-     * Returns the square where the character is positioned.
-     * If the characters is not in the board it will return null.
-     */
+    /// <summary>
+    /// <para>Returns the square where the character is positioned.
+    /// If the characters is not in the board it will return null.</para>
+    /// </summary>
+    /// <param name="character"></param>
+    /// <returns></returns>
     public Square GetCharacterSquare(Character character)
     {
         return !characters.ContainsKey(character) ? null : characters[character];
     }
 
-    /**
-     * Moves the character to the destination through the squares of the board
-     */
+    /// <summary>
+    /// <para>Moves the character to the destination through the squares of the board</para>
+    /// </summary>
+    /// <param name="character"></param>
+    /// <param name="path"></param>
+    /// <param name="onFinishMoving">Action that will be called when the character reaches its last position from the
+    /// path</param>
+    /// <returns>The quantity of squares moved</returns>
     public int MoveCharacter(Character character, List<Square> path, Action onFinishMoving)
     {
         if (path.Count == 0)
@@ -93,27 +100,46 @@ public class Board : MonoBehaviour
             return 0;
         }
 
+
         character.GetComponent<Movable>()
-            .MoveCharacter(path.Select(square => square.transform.position).ToList(), onFinishMoving);
+            .MoveCharacter(path, onFinishMoving);
         characters[character] = path[path.Count - 1];
         return path.Count - 1; // The first position is shouldn't me counted
     }
 
 
-    /**
-     * Returns the path between the parameter from and the parameter to.
-     * The path is represented as a list of squares
-     */
+    /// <summary>
+    /// <para>
+    /// Returns the path between the parameter from and the parameter to.
+    /// The path is represented as a list of squares</para>
+    /// </summary>
+    /// <param name="from"></param>
+    /// <param name="to"></param>
+    /// <returns></returns>
     public List<Square> GetPath(Square from, Square to)
     {
-        var path = BoardCalculator.CalculatePath(from.Point, to.Point,
-            characters.Values.Select(v => v.Point).ToList(), squarePoints, minPoint, maxPoint);
-        return path.Select(FromVectorToSquare).ToList();
+        var points = new List<Vector2Int>(characters.Values.Count);
+        var path = new List<Square>();
+        foreach (var blockedPoint in characters.Values)
+        {
+            points.Add(blockedPoint.Point);
+        }
+
+        foreach (var point in BoardCalculator.CalculatePath(@from.Point, to.Point, points, squarePoints, minPoint,
+            maxPoint))
+        {
+            path.Add(FromVectorToSquare(point));
+        }
+
+        return path;
     }
 
-    /**
-     * Returns the squares that are in the distance passed as parameter to the center square
-     */
+    /// <summary>
+    /// <para>Returns the squares that are in the distance passed as parameter to the center square</para>
+    /// </summary>
+    /// <param name="center"></param>
+    /// <param name="distance"></param>
+    /// <returns></returns>
     public List<Square> GetRange(Square center, int distance)
     {
         var range = BoardCalculator.CalculateRange(center.Point, distance, minPoint, maxPoint, squarePoints);

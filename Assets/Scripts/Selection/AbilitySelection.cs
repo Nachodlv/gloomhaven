@@ -9,8 +9,7 @@ public class AbilitySelection
     public delegate void AbilityCasted(Ability ability, Square destination);
 
     public event AbilityCasted OnAbilityCasted;
-    
-    public Ability Ability { get; private set; }
+    private Ability Ability { get; set; }
 
     private Action onAbilitySuccessfullyUsed;
 
@@ -99,10 +98,10 @@ public class AbilitySelection
 
     private static void ReduceMana(Character character, int quantity)
     {
-        character.Stats.AddStatusEffect(new StatusEffect
-        {
-            Duration = 1, StatsModifier = new StatsModifier {mana = -quantity}
-        });
+        character.CharacterStats.AddStatusEffect(new StatusEffect
+        (
+            new Stats(-quantity), 1, false
+        ));
     }
 
     private int GetDistance(Square origin, Square destination)

@@ -6,9 +6,8 @@ public class TurnManager : MonoBehaviour
 {
     public delegate void RoundEnd();
 
-    public delegate void CharacterDie(Character character);
     public event RoundEnd OnRoundEnd;
-    public event CharacterDie OnCharacterDie;
+    public event Action OnCharacterDie;
     
     public BoardPainter boardPainter;
 
@@ -27,6 +26,7 @@ public class TurnManager : MonoBehaviour
     private void Awake()
     {
         abilityUsedController = new AbilityUsedController(boardPainter.board);
+        OnRoundEnd += abilityUsedController.OnRoundEnd;
     }
 
     /// <summary>
@@ -35,19 +35,23 @@ public class TurnManager : MonoBehaviour
     /// <param name="characters"></param>
     public void StartRound(List<Character> characters)
     {
-        characters.Sort((a, b) => a.Stats.Initiative - b.Stats.Initiative);
+        characters.Sort((a, b) => a.CharacterStats.Initiative - b.CharacterStats.Initiative);
         charactersOrdered = characters;
         currentTurn = 0;
         NextTurn();
     }
 
     /// <summary>
+    /// <para>
     /// Paint the walking range of the character who is playing.
     /// Set the current character in the UI.
+    /// Tells the current character that his turn is beginning.
+    /// </para>
     /// </summary>
     private void NextTurn()
     {
         var character = GetCurrentCharacter();
+        character.OnTurnStart(boardPainter.board.GetCharacterSquare(character));
         moveCamera.MoveCameraToLocation(boardPainter.board.GetCharacterSquare(character).transform.position);
         boardPainter.PaintWalkingRange(character);
         currentCharacterUi.SetCurrentCharacter(character);
@@ -80,14 +84,12 @@ public class TurnManager : MonoBehaviour
     }
     
     /// <summary>
-    /// <para>Invokes the OnCharacterDie event.</para>
-    /// <para>If the character who died is the current character then it ends its turn</para>
+    /// <para>If the character who died is the current character then it invokes the OnCharacterDie event</para>
     /// </summary>
     /// <param name="character">The character who died</param>
     public void OnCharacterDead(Character character)
     {
-        OnCharacterDie?.Invoke(character);
-        if(character == GetCurrentCharacter()) EndTurn();
+        if(character == GetCurrentCharacter()) OnCharacterDie?.Invoke();
     }
 
     private bool IsAnotherTurn()
@@ -96,7 +98,7 @@ public class TurnManager : MonoBehaviour
         {
             currentTurn++;
             if (currentTurn >= charactersOrdered.Count) return false;
-            if (GetCurrentCharacter().Stats.Health > 0) return true;
+            if (GetCurrentCharacter().CharacterStats.Health > 0) return true;
         }
     }
 }

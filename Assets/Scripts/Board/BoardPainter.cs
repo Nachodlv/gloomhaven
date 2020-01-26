@@ -64,7 +64,7 @@ public class BoardPainter : MonoBehaviour
     public void PaintWalkingRange(Character character)
     {
         if(walkingRangePainted.ContainsKey(character)) UnPaintWalkingRange(character);
-        var range = board.GetRange(board.GetCharacterSquare(character), character.Stats.Speed);
+        var range = board.GetRange(board.GetCharacterSquare(character), character.CharacterStats.Speed);
         walkingRangePainted.Add(character, range);
 
         foreach (var square in range)
@@ -154,9 +154,12 @@ public class BoardPainter : MonoBehaviour
 
     private List<Square> GetAbilityAreaOfEffect(Square destination, List<Vector2Int> areaOfEffect)
     {
-        var positions = areaOfEffect.Select(position =>
-            new Vector2Int(position.x + destination.Point.x, position.y + destination.Point.y)).ToList();
-        return board.GetSquares(positions);
+        var positions = new List<Square>(areaOfEffect.Count);
+        foreach (var vector in areaOfEffect)
+        {
+            positions.Add(board.GetSquare(vector.x + destination.Point.x, vector.y + destination.Point.y));
+        }
+        return positions;
     }
     
 }

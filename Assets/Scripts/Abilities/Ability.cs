@@ -18,16 +18,16 @@ public abstract class Ability : MonoBehaviour
     public int Range => range;
 
     [SerializeField] [Tooltip("The stats that will affect if the ability hits a player")]
-    private StatsModifier statsModifier;
+    private Stats statsModifier;
 
-    public StatsModifier StatsModifier => statsModifier;
+    public Stats StatsModifier => statsModifier;
 
     [SerializeField] [Tooltip("Quantity of turns that the character will need to wait to use the ability again")]
     private int cooldown;
 
 
-    [SerializeField] [Tooltip("The status effects that will be set on the squares that ability hits")]
-    private StatusEffect[] statusEffects;
+    [Tooltip("The status effects that will be set on the squares that ability hits")]
+    public StatusEffect[] statusEffects;
 
     [SerializeField] [Tooltip("It is used for getting the corresponding prefab")]
     private AbilityType abilityType;

@@ -23,15 +23,23 @@ public class SelectionManager : MonoBehaviour
         {
             actionInProgress = false;
             AbilityUnselected();
-            turnManager.AbilityUsedController.AbilityUsed(turnManager, ability, destination);
+            turnManager.AbilityUsedController.AbilityUsed(ability, destination);
+        };
+        turnManager.OnCharacterDie += () =>
+        {
+            actionInProgress = false;
+            EndTurn();
         };
     }
 
-    /**
-     * This method is executed when a square from the board is selected.
-     * If an ability is selected then it calls the OnSquareSelected of the AbilitySelection.
-     * If an ability is not selected then it call the OnSquareSelected of the SquareSelection.
-     */
+    /// <summary>
+    /// <para>
+    /// This method is executed when a square from the board is selected.
+    /// If an ability is selected then it calls the OnSquareSelected of the AbilitySelection.
+    /// If an ability is not selected then it call the OnSquareSelected of the SquareSelection.
+    /// </para>
+    /// </summary>
+    /// <param name="square"></param>
     public void OnSquareSelected(Square square)
     {
         if (actionInProgress) return;
@@ -48,17 +56,20 @@ public class SelectionManager : MonoBehaviour
             {
                 actionInProgress = false;
                 if(character != turnManager.GetCurrentCharacter()) return;
-                if (character.Stats.Speed > 0) boardPainter.PaintWalkingRange(character);
+                if (character.CharacterStats.Speed > 0) boardPainter.PaintWalkingRange(character);
             });
         }
-        if(character.Stats.Speed == 0 && character.Stats.Mana == 0) EndTurn();
+        if(character.CharacterStats.Speed == 0 && character.CharacterStats.Mana == 0) EndTurn();
     }
 
-    /**
-      * This method is executed when a square from the board is hovered.
-      * If an ability is selected then it calls the OnSquareHovered of the AbilitySelection.
-      * If an ability is not selected then it call the OnSquareHovered of the SquareSelection.
-      */
+    /// <summary>
+    /// <para>
+    /// This method is executed when a square from the board is hovered.
+    /// If an ability is selected then it calls the OnSquareHovered of the AbilitySelection.
+    /// If an ability is not selected then it call the OnSquareHovered of the SquareSelection.
+    /// </para>
+    /// </summary>
+    /// <param name="square"></param>
     public void OnSquareHovered(Square square)
     {
         if (actionInProgress) return;
@@ -68,11 +79,14 @@ public class SelectionManager : MonoBehaviour
         else squareSelection.OnSquareHovered(boardPainter, square, character);
     }
 
-    /**
-     * This method is executed when the mouse exits a square from the board.
-     * If an ability is selected then it calls the OnSquareUnHovered of the AbilitySelection.
-     * If an ability is not selected then it call the OnSquareUnHovered of the SquareSelection.
-     */
+    /// <summary>
+    /// <para>
+    /// This method is executed when the mouse exits a square from the board.
+    /// If an ability is selected then it calls the OnSquareUnHovered of the AbilitySelection.
+    /// If an ability is not selected then it call the OnSquareUnHovered of the SquareSelection.
+    /// </para>
+    /// </summary>
+    /// <param name="square"></param>
     public void OnSquareUnHovered(Square square)
     {
         var character = turnManager.GetCurrentCharacter();
@@ -129,4 +143,5 @@ public class SelectionManager : MonoBehaviour
         AbilityUnselected();
         turnManager.EndTurn();
     }
+    
 }

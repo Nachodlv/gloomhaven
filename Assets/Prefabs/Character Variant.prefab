@@ -296,6 +296,66 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3077257840528873856, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077257840528873856, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077257840528873856, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077257840528873856, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599709273074040907, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599709273074040907, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599709273074040907, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599709273074040907, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645752607321756354, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645752607321756354, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645752607321756354, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645752607321756354, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2278dbef17cd7c7799c50bc1ee8d22a5, type: 3}
 --- !u!224 &831008093276474597 stripped
@@ -433,6 +493,66 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3077257840528873856, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077257840528873856, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077257840528873856, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077257840528873856, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599709273074040907, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599709273074040907, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599709273074040907, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599709273074040907, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645752607321756354, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645752607321756354, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645752607321756354, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645752607321756354, guid: 2278dbef17cd7c7799c50bc1ee8d22a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2278dbef17cd7c7799c50bc1ee8d22a5, type: 3}
 --- !u!224 &368411896338239563 stripped
@@ -509,8 +629,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2054098528, guid: c20397bf1592dc040b827e8716b0bd41, type: 3}
-      propertyPath: defence
-      value: 0
+      propertyPath: stats.initiative
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2054098528, guid: c20397bf1592dc040b827e8716b0bd41, type: 3}
+      propertyPath: stats.health
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2054098528, guid: c20397bf1592dc040b827e8716b0bd41, type: 3}
+      propertyPath: stats.mana
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2054098528, guid: c20397bf1592dc040b827e8716b0bd41, type: 3}
+      propertyPath: stats.speed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2054098526, guid: c20397bf1592dc040b827e8716b0bd41, type: 3}
       propertyPath: abilitiesPrefab.Array.size

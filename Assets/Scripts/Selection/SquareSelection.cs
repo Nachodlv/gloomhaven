@@ -7,13 +7,12 @@ using Utils;
 
 public class SquareSelection
 {
-
     /// <summary>
     /// Paints the walking range of the character.
     /// </summary>
     /// <param name="boardPainter">Used to paint the walking range</param>
     /// <param name="character">The character used to get the walking range</param>
-    public static void StartWalking(BoardPainter boardPainter,  Character character)
+    public static void StartWalking(BoardPainter boardPainter, Character character)
     {
         boardPainter.PaintWalkingRange(character);
     }
@@ -27,7 +26,7 @@ public class SquareSelection
     {
         RemovesPainting(boardPainter, character);
     }
-    
+
     /// <summary>
     /// Moves the player to the selected square. Uses the <paramref name="boardPainter"/> to remove the colors from the
     /// walking range and the walking trail.
@@ -39,13 +38,15 @@ public class SquareSelection
     public void OnSquareSelected(BoardPainter boardPainter, Square square, Character character, Action onStopMoving)
     {
         RemovesPainting(boardPainter, character);
+        var path = GetPath(boardPainter.board, character, square);
+        if(path.Count > 1) path = path.GetRange(1, path.Count-1);
         var distance =
-            boardPainter.board.MoveCharacter(character, GetPath(boardPainter.board, character, square), onStopMoving);
+            boardPainter.board.MoveCharacter(character, path, onStopMoving);
         ReduceSpeed(character, distance);
     }
-    
+
     /// <summary>
-    /// Adds color to the squares with the <paramref name="boardPainter"/> representing the walking path that the
+    /// Adds color to the squares with the board painter representing the walking path that the
     /// character will make if the square is selected.
     /// </summary>
     /// <param name="boardPainter">Used to paint the walking path</param>
@@ -55,7 +56,7 @@ public class SquareSelection
     {
         boardPainter.PaintWalkingSquares(character, GetPath(boardPainter.board, character, square));
     }
-    
+
     /// <summary>
     /// Removes the color to the squares that was added when it was hovered.
     /// </summary>
@@ -65,28 +66,31 @@ public class SquareSelection
     {
         boardPainter.UnPaintWalkingSquares(character);
     }
-    
+
     /// <summary>
-    /// Reduces the speed of the <paramref name="character"/> in the <paramref name="quantity"/> provided by one turn
+    /// <para>
+    /// Reduces the speed of the character in the quantity provided by one turn
+    /// </para>
     /// </summary>
     /// <param name="character">The character that will loose speed</param>
     /// <param name="quantity">The quantity in which the speed will be reduce</param>
     private static void ReduceSpeed(Character character, int quantity)
     {
-        character.Stats.AddStatusEffect(new StatusEffect
-            {Duration = 1, StatsModifier = new StatsModifier {speed = -quantity}});
+        character.CharacterStats.AddStatusEffect(new StatusEffect
+            (new Stats (0, -quantity), 1, false));
     }
 
-    /**
-     * Uses the board painter to remove the colors from the walking range and from the walking square if it is any.
-     */
+    /// <summary>
+    /// Uses the board painter to remove the colors from the walking range and from the walking square if it is any.
+    /// </summary>
+    /// <param name="boardPainter"></param>
+    /// <param name="character"></param>
     private static void RemovesPainting(BoardPainter boardPainter, Character character)
     {
         boardPainter.UnPaintWalkingSquares(character);
         boardPainter.UnPaintWalkingRange(character);
-
     }
-    
+
     /// <summary>
     /// Gets the path that the <paramref name="character"/> need to do to get to its <paramref name="destination"/>.
     /// The path is limited by the speed of the character
@@ -95,9 +99,9 @@ public class SquareSelection
     /// <param name="character">The character is used to get the speed and the initial square of the path</param>
     /// <param name="destination">The final square of the path</param>
     /// <returns>The path represented as a list of squares</returns>
-    private List<Square> GetPath(Board board, Character character, Square destination)
+    private static List<Square> GetPath(Board board, Character character, Square destination)
     {
-        var speed = (int) character.Stats.Speed;
+        var speed = character.CharacterStats.Speed;
         if (speed == 0) return new List<Square>();
         var from = board.GetCharacterSquare(character);
         var path = board.GetPath(from, destination);

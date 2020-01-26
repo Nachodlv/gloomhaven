@@ -38,17 +38,20 @@ public class GameController : MonoBehaviour
     {
         PositionCharacters();
         turnManager.OnRoundEnd += OnRoundEnd;
-        turnManager.OnCharacterDie += OnCharacterDie;
         turnManager.StartRound(characters.Keys.ToList());
     }
 
     /// <summary>
     /// <para>Positions the characters on the board</para>
+    /// <para>Assigns the delegates on the event OnDie of the characters on the board</para>
     /// </summary>
     private void PositionCharacters()
     {
         charactersPositions.ForEach(characterPosition =>
         {
+            characterPosition.character.OnDie += OnCharacterDie;
+            characterPosition.character.OnDie += turnManager.OnCharacterDead;
+            
             var square = board.AddCharacter(characterPosition.character, characterPosition.x, characterPosition.z);
             var squarePosition = square.transform.position;
             var characterTransform = characterPosition.character.transform;

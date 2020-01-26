@@ -50,17 +50,19 @@ MonoBehaviour:
     initiative: 0
     defence: 0
     health: -3
-    mana: 5
+    mana: 0
     speed: 0
   cooldown: 2
   statusEffects:
-  - StatsModifier:
+  - statsModifier:
       initiative: 0
       defence: 0
       health: -1
       mana: 0
       speed: 0
-    Duration: 2
+    duration: 2
+    color: {r: 1, g: 0, b: 0, a: 0}
+    isPermanent: 1
   abilityType: 0
   speed: 5
   rangeOfAreaOfEffect: 2
