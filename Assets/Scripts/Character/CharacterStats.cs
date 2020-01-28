@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Abilities;
 using UnityEngine;
 using UnityEngine.Events;
@@ -69,17 +66,28 @@ public class CharacterStats : MonoBehaviour
     }
 
     /// <summary>
-    /// <para>
-    /// Removes a StatusEffect from the statusEffects list at the index passed as parameter.
-    /// </para>
+    /// <para>Reduces the duration by one of the status effects.
+    /// If the status effect has a duration of zero then it is removed.</para>
+    /// <para>The event OnStatsChange is invoked</para>
     /// </summary>
-    /// <param name="index"></param>
-    public void RemoveStatusEffectAt(int index)
+    public void ReduceDurationStatusEffects()
     {
-        StatusEffects.RemoveAt(index);
+        for (var i = 0; i < StatusEffects.Count; i++)
+        {
+            var statusEffect = StatusEffects[i];
+            if (statusEffect.DurationLeft > 1)
+            {
+                StatusEffects[i] = StatusEffect.ReduceDurationStatusEffect(statusEffect);
+            }
+            else
+            {
+                StatusEffects.RemoveAt(i);
+                i--;
+            }
+        }
+        OnStatsChange?.Invoke();
     }
-
-
+    
     private Stats SumStats()
     {
         var originalStats = stats;

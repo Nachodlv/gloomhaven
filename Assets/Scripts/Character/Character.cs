@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Abilities;
 using UnityEngine;
 
@@ -36,7 +34,9 @@ public class Character : MonoBehaviour
 
     /// <summary>
     /// <para>Calls the method StepOnSquare with the currentSquare.</para>
-    /// <para>Applies the status effects that currently has the character</para>
+    /// <para>Applies the status effects that currently has the character.</para>
+    /// <para>Reduces the duration of the status effects.</para>
+    /// <para>Reduces the cooldown of the character abilities.</para>
     /// </summary>
     /// <remarks>This method is called when the turn of the character starts</remarks>
     /// <param name="currentSquare"></param>
@@ -47,17 +47,7 @@ public class Character : MonoBehaviour
         {
             ApplyStatusEffect(statusEffect);
         }
-    }
-    
-    /// <summary>
-    /// <para>
-    /// It is called when the round ends.
-    /// Reduce the duration of the status effects and the abilities.
-    /// </para>
-    /// </summary>
-    public void OnRoundEnd()
-    {
-        ReduceDurationStatusEffects(CharacterStats.StatusEffects);
+        CharacterStats.ReduceDurationStatusEffects();
         ReduceCooldownAbilities();
     }
 
@@ -91,27 +81,6 @@ public class Character : MonoBehaviour
             CharacterStats.AddStatusEffect(squareStatusEffect);
         }
         
-    }
-    
-    /// <summary>
-    /// <para>Reduces the duration by one of the status effects. If the status effect has a duration of zero then it is
-    /// removed.</para>
-    /// </summary>
-    private void ReduceDurationStatusEffects(List<StatusEffect> statusEffects)
-    {
-        for (var i = 0; i < statusEffects.Count; i++)
-        {
-            var statusEffect = statusEffects[i];
-            if (statusEffect.DurationLeft > 1)
-            {
-                CharacterStats.StatusEffects[i] = StatusEffect.ReduceDurationStatusEffect(statusEffect);
-            }
-            else
-            {
-               CharacterStats.RemoveStatusEffectAt(i);
-                i--;
-            }
-        }
     }
 
     private void ReduceCooldownAbilities()

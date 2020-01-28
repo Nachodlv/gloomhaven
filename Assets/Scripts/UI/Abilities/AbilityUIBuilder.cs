@@ -1,11 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 namespace UI
 {
@@ -14,7 +7,7 @@ namespace UI
         private readonly AbilityButton[] buttons;
         private AbilityButton selectedButton;
         private bool isAButtonSelected;
-        private Color selectedColor;
+        private readonly Color selectedColor;
         private readonly Color unSelectedColor;
 
         /// <summary>

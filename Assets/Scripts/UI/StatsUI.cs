@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterStats))]
@@ -20,6 +17,9 @@ public class StatsUI : MonoBehaviour
     private TextMeshProUGUI speedText;
     [SerializeField][Tooltip("Text where the defence of the character will be displayed")]
     private TextMeshProUGUI defenceText;
+
+    [SerializeField][Tooltip("In charge of updating the status effects images")] 
+    private StatusEffectsUI statusEffectsUi;
 
     private CharacterStats characterStats;
     private void Awake()
@@ -52,6 +52,7 @@ public class StatsUI : MonoBehaviour
     /// <summary>
     /// <para>
     /// Updates the health bar and the mana bar with their corresponding stats.
+    /// Updates the status effects images.
     /// If the health is zero then it hides the canvas where the stats are being displayed.
     /// </para>.
     /// </summary>
@@ -63,6 +64,8 @@ public class StatsUI : MonoBehaviour
         manaBar.CurrentValue = characterStats.Mana;
         speedText.text = characterStats.Speed.ToString();
         defenceText.text = characterStats.Defence.ToString();
+        
+        statusEffectsUi.UpdateStatusEffects(characterStats.StatusEffects);
     }
     
 }

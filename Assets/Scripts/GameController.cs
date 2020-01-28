@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -61,12 +60,10 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// <para>Tells the characters active that the round has ended.
-    /// Starts a new round with them.</para>
+    /// <para>Starts a new round with the active characters.</para>
     /// </summary>
     private void OnRoundEnd()
     {
-        GetActiveCharacters().ForEach(c => c.OnRoundEnd());
         turnManager.StartRound(GetActiveCharacters());
     }
 

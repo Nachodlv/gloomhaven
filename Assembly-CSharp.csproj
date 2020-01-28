@@ -89,8 +89,10 @@
      <Compile Include="Assets\Scripts\Selection\SelectorState.cs" />
      <Compile Include="Assets\Scripts\Selection\SquareSelection.cs" />
      <Compile Include="Assets\Scripts\TurnManager.cs" />
-     <Compile Include="Assets\Scripts\UI\AbilityButton.cs" />
-     <Compile Include="Assets\Scripts\UI\AbilityUIBuilder.cs" />
+     <Compile Include="Assets\Scripts\UI\Abilities\AbilityButton.cs" />
+     <Compile Include="Assets\Scripts\UI\Abilities\AbilityUIBuilder.cs" />
+     <Compile Include="Assets\Scripts\UI\Abilities\StatusEffectImage.cs" />
+     <Compile Include="Assets\Scripts\UI\Abilities\StatusEffectsUI.cs" />
      <Compile Include="Assets\Scripts\UI\CurrentCharacterUI.cs" />
      <Compile Include="Assets\Scripts\UI\FixRotation.cs" />
      <Compile Include="Assets\Scripts\UI\GameOverUI.cs" />

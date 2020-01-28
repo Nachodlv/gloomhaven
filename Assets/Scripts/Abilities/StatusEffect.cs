@@ -27,18 +27,13 @@ namespace Abilities
             this.duration = duration;
             this.isPermanent = isPermanent;
             durationLeft = duration;
+            color = Color.clear;
         }
 
         public static StatusEffect ReduceDurationStatusEffect(StatusEffect statusEffect)
         {
-            return new StatusEffect
-            {
-                color = statusEffect.Color, 
-                duration = statusEffect.Duration,
-                statsModifier = statusEffect.StatsModifier,
-                isPermanent = statusEffect.IsPermanent,
-                durationLeft = statusEffect.DurationLeft - 1 
-            };
+            statusEffect.durationLeft -= 1;
+            return statusEffect;
         }
 
         public static StatusEffect ResetDurationLeft(StatusEffect statusEffect)
