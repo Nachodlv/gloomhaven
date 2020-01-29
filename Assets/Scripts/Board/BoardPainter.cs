@@ -157,7 +157,8 @@ public class BoardPainter : MonoBehaviour
         var positions = new List<Square>(areaOfEffect.Count);
         foreach (var vector in areaOfEffect)
         {
-            positions.Add(board.GetSquare(vector.x + destination.Point.x, vector.y + destination.Point.y));
+           var square = board.GetSquare(vector.x + destination.Point.x, vector.y + destination.Point.y);
+           if(square != null) positions.Add(square);
         }
         return positions;
     }
