@@ -51,10 +51,10 @@ public class TurnManager : MonoBehaviour
     private void NextTurn()
     {
         var character = GetCurrentCharacter();
-        character.OnTurnStart(boardPainter.board.GetCharacterSquare(character));
         moveCamera.MoveCameraToLocation(boardPainter.board.GetCharacterSquare(character).transform.position);
         boardPainter.PaintWalkingRange(character);
         currentCharacterUi.SetCurrentCharacter(character);
+        character.OnTurnStart(boardPainter.board.GetCharacterSquare(character));
     }
 
     /// <summary>
